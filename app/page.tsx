@@ -14,9 +14,6 @@ const sections = {
         <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl font-light leading-[1.1] mb-4">
           Storytelling<br />that <em className="font-script text-5xl md:text-7xl lg:text-8xl not-italic">feels.</em>
         </h2>
-        <p className="font-script text-lg md:text-2xl opacity-60 mt-2">
-          Para marcas, parejas y soñadores.
-        </p>
       </div>
     ),
   },
@@ -84,7 +81,7 @@ const sections = {
     ),
   },
   contacto: {
-    image: "https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?w=1400&q=80",
     overlay: (
       <div className="absolute inset-0 flex items-center justify-center bg-black/30 px-6">
         <div className="max-w-md text-center text-[#f5f0e8]">
