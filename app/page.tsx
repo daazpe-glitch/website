@@ -112,7 +112,7 @@ const navItems: SectionKey[] = ["home", "trabajo", "sobre mí", "proyectos", "co
 export default function Home() {
   const [active, setActive] = useState<SectionKey>("home");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("cafe");
+  const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
 
   const bgColors = {
     cafe: { bg: "#d4cdbf", text: "#3a352d" },
@@ -245,13 +245,12 @@ export default function Home() {
         className="flex-1 px-4 md:px-10 pb-4 md:pb-5 min-h-0 relative"
       >
         <div className="relative w-full h-full overflow-hidden">
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             <motion.div
               key={active}
-              initial={{ opacity: 0, scale: 1.03 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute inset-0"
             >
               <img
