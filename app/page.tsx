@@ -111,18 +111,36 @@ const navItems: SectionKey[] = ["home", "trabajo", "sobre mí", "proyectos", "co
 
 export default function Home() {
   const [active, setActive] = useState<SectionKey>("home");
+  const [prevActive, setPrevActive] = useState<SectionKey>("home");
+  const [direction, setDirection] = useState(0); // -1 left, 1 right
   const [menuOpen, setMenuOpen] = useState(false);
+  const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
+  const transition = "fade" as const;
+
+  const bgColors = {
+    cafe: { bg: "#d4cdbf", text: "#3a352d" },
+    blanco: { bg: "#ffffff", text: "#1a1a1a" },
+    crema: { bg: "#f5f0ea", text: "#2a2520" },
+  };
   const [entered, setEntered] = useState(false);
+
+  const goTo = useCallback((target: SectionKey) => {
+    const fromIdx = navItems.indexOf(active);
+    const toIdx = navItems.indexOf(target);
+    setDirection(toIdx > fromIdx ? 1 : -1);
+    setPrevActive(active);
+    setActive(target);
+  }, [active]);
 
   const goNext = useCallback(() => {
     const idx = navItems.indexOf(active);
-    setActive(navItems[(idx + 1) % navItems.length]);
-  }, [active]);
+    goTo(navItems[(idx + 1) % navItems.length]);
+  }, [active, goTo]);
 
   const goPrev = useCallback(() => {
     const idx = navItems.indexOf(active);
-    setActive(navItems[(idx - 1 + navItems.length) % navItems.length]);
-  }, [active]);
+    goTo(navItems[(idx - 1 + navItems.length) % navItems.length]);
+  }, [active, goTo]);
 
   /* Preload images */
   useEffect(() => {
@@ -168,7 +186,9 @@ export default function Home() {
   const isLast = currentIdx === navItems.length - 1;
 
   return (
-    <main className="h-screen w-screen overflow-hidden bg-[#d4cdbf] flex flex-col select-none">
+    <main className="h-screen w-screen overflow-hidden flex flex-col select-none transition-colors duration-500" style={{ backgroundColor: bgColors[bgTheme].bg, "--nav-color": bgColors[bgTheme].text } as React.CSSProperties}>
+
+
       {/* Film grain */}
       <div className="fixed inset-0 opacity-[0.06] pointer-events-none z-50 mix-blend-multiply" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -181,14 +201,14 @@ export default function Home() {
         transition={{ duration: 1, delay: 0.5 }}
         className="flex justify-between items-center px-6 md:px-10 py-4 md:py-5 z-30 flex-shrink-0"
       >
-        <button onClick={() => setActive("home")}
-          className="font-serif text-lg md:text-xl font-light tracking-[4px] uppercase text-[#3a352d] hover:opacity-60 transition-opacity cursor-pointer">
+        <button onClick={() => goTo("home")}
+          className="font-serif text-lg md:text-xl font-light tracking-[4px] uppercase text-[var(--nav-color)] hover:opacity-60 transition-opacity cursor-pointer">
           Daniel Azpe
         </button>
         <div className="hidden md:flex items-center gap-8">
           {navItems.filter(n => n !== "home").map((item) => (
-            <button key={item} onClick={() => setActive(item)}
-              className={`font-mono text-[10px] tracking-[3px] uppercase transition-all duration-300 text-[#3a352d] cursor-pointer ${active === item ? "opacity-100" : "opacity-35 hover:opacity-70"}`}>
+            <button key={item} onClick={() => goTo(item)}
+              className={`font-mono text-[10px] tracking-[3px] uppercase transition-all duration-300 text-[var(--nav-color)] cursor-pointer ${active === item ? "opacity-100" : "opacity-35 hover:opacity-70"}`}>
               {item}
             </button>
           ))}
@@ -204,14 +224,14 @@ export default function Home() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-[#d4cdbf]/98 backdrop-blur-lg flex flex-col items-center justify-center gap-8">
-            <button onClick={() => setMenuOpen(false)} className="absolute top-5 right-6 text-lg text-[#3a352d] cursor-pointer">✕</button>
+            className="fixed inset-0 z-40 backdrop-blur-lg flex flex-col items-center justify-center gap-8" style={{ backgroundColor: bgColors[bgTheme].bg + "f8" }}>
+            <button onClick={() => setMenuOpen(false)} className="absolute top-5 right-6 text-lg text-[var(--nav-color)] cursor-pointer">✕</button>
             {navItems.map((item, i) => (
               <motion.button key={item}
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                onClick={() => { setActive(item); setMenuOpen(false); }}
-                className={`font-serif text-2xl font-light tracking-[3px] uppercase text-[#3a352d] cursor-pointer ${active === item ? "opacity-100" : "opacity-35"}`}>
+                onClick={() => { goTo(item); setMenuOpen(false); }}
+                className={`font-serif text-2xl font-light tracking-[3px] uppercase text-[var(--nav-color)] cursor-pointer ${active === item ? "opacity-100" : "opacity-35"}`}>
                 {item}
               </motion.button>
             ))}
@@ -227,13 +247,22 @@ export default function Home() {
         className="flex-1 px-4 md:px-10 pb-4 md:pb-5 min-h-0 relative"
       >
         <div className="relative w-full h-full overflow-hidden">
-          <AnimatePresence mode="wait">
+          <AnimatePresence initial={false}>
             <motion.div
               key={active}
-              initial={{ opacity: 0, scale: 1.03 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={transition === "slide"
+                ? { x: direction > 0 ? "100%" : "-100%", opacity: 1 }
+                : { opacity: 0 }
+              }
+              animate={transition === "slide"
+                ? { x: 0, opacity: 1 }
+                : { opacity: 1 }
+              }
+              exit={transition === "slide"
+                ? { x: direction > 0 ? "-100%" : "100%", opacity: 1 }
+                : { opacity: 0 }
+              }
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
               className="absolute inset-0"
             >
               <img
@@ -246,7 +275,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
                 className="absolute inset-0"
               >
                 {sections[active].overlay}
@@ -283,21 +312,21 @@ export default function Home() {
       >
         <div className="hidden md:flex gap-8">
           <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer"
-            className="font-mono text-[9px] tracking-[3px] uppercase text-[#3a352d]/25 hover:text-[#3a352d]/60 transition-colors cursor-pointer">
+            className="font-mono text-[9px] tracking-[3px] uppercase text-[var(--nav-color)]/25 hover:text-[var(--nav-color)]/60 transition-colors cursor-pointer">
             Timeless Studios
           </a>
           {["Proyectos", "Bodas"].map((t) => (
-            <span key={t} className="font-mono text-[9px] tracking-[3px] uppercase text-[#3a352d]/25 cursor-pointer hover:text-[#3a352d]/50 transition-colors">{t}</span>
+            <span key={t} className="font-mono text-[9px] tracking-[3px] uppercase text-[var(--nav-color)]/25 cursor-pointer hover:text-[var(--nav-color)]/50 transition-colors">{t}</span>
           ))}
         </div>
 
         {/* Section indicators with labels */}
         <div className="flex gap-4 ml-auto items-center">
           {navItems.map((item, i) => (
-            <button key={item} onClick={() => setActive(item)}
+            <button key={item} onClick={() => goTo(item)}
               className="flex items-center gap-1.5 group cursor-pointer">
               <span className={`w-2 h-2 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/70 scale-125" : "bg-[#3a352d]/15 group-hover:bg-[#3a352d]/30"}`} />
-              <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[#3a352d]/60" : "text-[#3a352d]/0 group-hover:text-[#3a352d]/35"}`}>
+              <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/60" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/35"}`}>
                 {item}
               </span>
             </button>
