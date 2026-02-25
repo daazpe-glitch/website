@@ -111,8 +111,11 @@ const navItems: SectionKey[] = ["home", "trabajo", "sobre mí", "proyectos", "co
 
 export default function Home() {
   const [active, setActive] = useState<SectionKey>("home");
+  const [prevActive, setPrevActive] = useState<SectionKey>("home");
+  const [direction, setDirection] = useState(0); // -1 left, 1 right
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
+  const [transition, setTransition] = useState<"slide" | "fade">("slide");
 
   const bgColors = {
     cafe: { bg: "#d4cdbf", text: "#3a352d" },
@@ -121,15 +124,23 @@ export default function Home() {
   };
   const [entered, setEntered] = useState(false);
 
+  const goTo = useCallback((target: SectionKey) => {
+    const fromIdx = navItems.indexOf(active);
+    const toIdx = navItems.indexOf(target);
+    setDirection(toIdx > fromIdx ? 1 : -1);
+    setPrevActive(active);
+    setActive(target);
+  }, [active]);
+
   const goNext = useCallback(() => {
     const idx = navItems.indexOf(active);
-    setActive(navItems[(idx + 1) % navItems.length]);
-  }, [active]);
+    goTo(navItems[(idx + 1) % navItems.length]);
+  }, [active, goTo]);
 
   const goPrev = useCallback(() => {
     const idx = navItems.indexOf(active);
-    setActive(navItems[(idx - 1 + navItems.length) % navItems.length]);
-  }, [active]);
+    goTo(navItems[(idx - 1 + navItems.length) % navItems.length]);
+  }, [active, goTo]);
 
   /* Preload images */
   useEffect(() => {
@@ -176,15 +187,25 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen overflow-hidden flex flex-col select-none transition-colors duration-500" style={{ backgroundColor: bgColors[bgTheme].bg, "--nav-color": bgColors[bgTheme].text } as React.CSSProperties}>
-      {/* Color switcher (TEMP — remove before final) */}
-      <div className="fixed top-4 right-4 md:top-auto md:bottom-16 md:right-6 z-[60] flex gap-2">
-        {(["cafe", "crema", "blanco"] as const).map((t) => (
-          <button key={t} onClick={() => setBgTheme(t)}
-            className={`w-6 h-6 rounded-full border-2 transition-all duration-300 cursor-pointer ${bgTheme === t ? "border-black/40 scale-110" : "border-black/10"}`}
-            style={{ backgroundColor: bgColors[t].bg }}
-            title={t}
-          />
-        ))}
+      {/* Switchers (TEMP — remove before final) */}
+      <div className="fixed top-4 right-4 md:top-auto md:bottom-16 md:right-6 z-[60] flex flex-col gap-3 items-end">
+        <div className="flex gap-2">
+          {(["cafe", "crema", "blanco"] as const).map((t) => (
+            <button key={t} onClick={() => setBgTheme(t)}
+              className={`w-6 h-6 rounded-full border-2 transition-all duration-300 cursor-pointer ${bgTheme === t ? "border-black/40 scale-110" : "border-black/10"}`}
+              style={{ backgroundColor: bgColors[t].bg }}
+              title={t}
+            />
+          ))}
+        </div>
+        <div className="flex gap-1.5">
+          {(["slide", "fade"] as const).map((t) => (
+            <button key={t} onClick={() => setTransition(t)}
+              className={`font-mono text-[9px] tracking-[2px] uppercase px-2.5 py-1 border cursor-pointer transition-all duration-300 ${transition === t ? "border-black/30 bg-black/10" : "border-black/10 bg-white/50"}`}>
+              {t}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Film grain */}
@@ -199,13 +220,13 @@ export default function Home() {
         transition={{ duration: 1, delay: 0.5 }}
         className="flex justify-between items-center px-6 md:px-10 py-4 md:py-5 z-30 flex-shrink-0"
       >
-        <button onClick={() => setActive("home")}
+        <button onClick={() => goTo("home")}
           className="font-serif text-lg md:text-xl font-light tracking-[4px] uppercase text-[var(--nav-color)] hover:opacity-60 transition-opacity cursor-pointer">
           Daniel Azpe
         </button>
         <div className="hidden md:flex items-center gap-8">
           {navItems.filter(n => n !== "home").map((item) => (
-            <button key={item} onClick={() => setActive(item)}
+            <button key={item} onClick={() => goTo(item)}
               className={`font-mono text-[10px] tracking-[3px] uppercase transition-all duration-300 text-[var(--nav-color)] cursor-pointer ${active === item ? "opacity-100" : "opacity-35 hover:opacity-70"}`}>
               {item}
             </button>
@@ -228,7 +249,7 @@ export default function Home() {
               <motion.button key={item}
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                onClick={() => { setActive(item); setMenuOpen(false); }}
+                onClick={() => { goTo(item); setMenuOpen(false); }}
                 className={`font-serif text-2xl font-light tracking-[3px] uppercase text-[var(--nav-color)] cursor-pointer ${active === item ? "opacity-100" : "opacity-35"}`}>
                 {item}
               </motion.button>
@@ -245,12 +266,22 @@ export default function Home() {
         className="flex-1 px-4 md:px-10 pb-4 md:pb-5 min-h-0 relative"
       >
         <div className="relative w-full h-full overflow-hidden">
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             <motion.div
               key={active}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={transition === "slide"
+                ? { x: direction > 0 ? "100%" : "-100%", opacity: 1 }
+                : { opacity: 0 }
+              }
+              animate={transition === "slide"
+                ? { x: 0, opacity: 1 }
+                : { opacity: 1 }
+              }
+              exit={transition === "slide"
+                ? { x: direction > 0 ? "-100%" : "100%", opacity: 1 }
+                : { opacity: 0 }
+              }
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
               className="absolute inset-0"
             >
               <img
@@ -311,7 +342,7 @@ export default function Home() {
         {/* Section indicators with labels */}
         <div className="flex gap-4 ml-auto items-center">
           {navItems.map((item, i) => (
-            <button key={item} onClick={() => setActive(item)}
+            <button key={item} onClick={() => goTo(item)}
               className="flex items-center gap-1.5 group cursor-pointer">
               <span className={`w-2 h-2 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/70 scale-125" : "bg-[#3a352d]/15 group-hover:bg-[#3a352d]/30"}`} />
               <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/60" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/35"}`}>
