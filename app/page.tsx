@@ -115,7 +115,7 @@ export default function Home() {
   const [direction, setDirection] = useState(0); // -1 left, 1 right
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
-  const transition = "fade" as const;
+
 
   const bgColors = {
     cafe: { bg: "#d4cdbf", text: "#3a352d" },
@@ -250,18 +250,9 @@ export default function Home() {
           <AnimatePresence initial={false}>
             <motion.div
               key={active}
-              initial={transition === "slide"
-                ? { x: direction > 0 ? "100%" : "-100%", opacity: 1 }
-                : { opacity: 0 }
-              }
-              animate={transition === "slide"
-                ? { x: 0, opacity: 1 }
-                : { opacity: 1 }
-              }
-              exit={transition === "slide"
-                ? { x: direction > 0 ? "-100%" : "100%", opacity: 1 }
-                : { opacity: 0 }
-              }
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
               className="absolute inset-0"
             >
