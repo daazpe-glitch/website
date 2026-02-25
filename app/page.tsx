@@ -19,7 +19,7 @@ const sections = {
     ),
   },
   trabajo: {
-    image: "https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?w=1400&q=80",
+    image: "/images/golden-grain.jpg",
     overlay: (
       <div className="absolute inset-0 flex items-center justify-end bg-gradient-to-l from-black/50 via-transparent to-transparent px-8 md:px-16">
         <div className="max-w-md text-right text-[#f5f0e8]">
@@ -62,7 +62,7 @@ const sections = {
     ),
   },
   proyectos: {
-    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400&q=80",
+    image: "/images/motion-blur.jpg",
     overlay: (
       <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 via-transparent to-transparent px-8 md:px-16 pb-10 md:pb-16">
         <div className="text-[#f5f0e8]">
@@ -82,7 +82,7 @@ const sections = {
     ),
   },
   contacto: {
-    image: "https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1400&q=80",
+    image: "/images/blue-motion.jpg",
     overlay: (
       <div className="absolute inset-0 flex items-center justify-center bg-black/30 px-6">
         <div className="max-w-md text-center text-[#f5f0e8]">
