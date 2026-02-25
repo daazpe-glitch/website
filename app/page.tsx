@@ -115,7 +115,7 @@ export default function Home() {
   const [direction, setDirection] = useState(0); // -1 left, 1 right
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
-  const [transition, setTransition] = useState<"slide" | "fade">("slide");
+  const transition = "fade" as const;
 
   const bgColors = {
     cafe: { bg: "#d4cdbf", text: "#3a352d" },
@@ -187,26 +187,7 @@ export default function Home() {
 
   return (
     <main className="h-screen w-screen overflow-hidden flex flex-col select-none transition-colors duration-500" style={{ backgroundColor: bgColors[bgTheme].bg, "--nav-color": bgColors[bgTheme].text } as React.CSSProperties}>
-      {/* Switchers (TEMP — remove before final) */}
-      <div className="fixed top-4 right-4 md:top-auto md:bottom-16 md:right-6 z-[60] flex flex-col gap-3 items-end">
-        <div className="flex gap-2">
-          {(["cafe", "crema", "blanco"] as const).map((t) => (
-            <button key={t} onClick={() => setBgTheme(t)}
-              className={`w-6 h-6 rounded-full border-2 transition-all duration-300 cursor-pointer ${bgTheme === t ? "border-black/40 scale-110" : "border-black/10"}`}
-              style={{ backgroundColor: bgColors[t].bg }}
-              title={t}
-            />
-          ))}
-        </div>
-        <div className="flex gap-1.5">
-          {(["slide", "fade"] as const).map((t) => (
-            <button key={t} onClick={() => setTransition(t)}
-              className={`font-mono text-[9px] tracking-[2px] uppercase px-2.5 py-1 border cursor-pointer transition-all duration-300 ${transition === t ? "border-black/30 bg-black/10" : "border-black/10 bg-white/50"}`}>
-              {t}
-            </button>
-          ))}
-        </div>
-      </div>
+
 
       {/* Film grain */}
       <div className="fixed inset-0 opacity-[0.06] pointer-events-none z-50 mix-blend-multiply" style={{
