@@ -254,27 +254,21 @@ export default function Home() {
             </motion.div>
           </AnimatePresence>
 
-          {/* ─── SIDE ARROWS ─── */}
+          {/* ─── SIDE NAV ZONES ─── */}
           {!isFirst && (
             <button onClick={goPrev}
-              className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 group cursor-pointer">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center
-                backdrop-blur-sm bg-black/10 group-hover:bg-black/25 group-hover:border-white/40 transition-all duration-300">
-                <svg className="w-4 h-4 md:w-5 md:h-5 text-white/60 group-hover:text-white/90 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-              </div>
+              className="absolute left-0 top-0 bottom-0 w-20 md:w-32 z-20 group cursor-w-resize flex items-center justify-start pl-4 md:pl-6">
+              <span className="font-serif text-2xl md:text-3xl text-white/0 group-hover:text-white/50 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
+                ‹
+              </span>
             </button>
           )}
           {!isLast && (
             <button onClick={goNext}
-              className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 group cursor-pointer">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center
-                backdrop-blur-sm bg-black/10 group-hover:bg-black/25 group-hover:border-white/40 transition-all duration-300">
-                <svg className="w-4 h-4 md:w-5 md:h-5 text-white/60 group-hover:text-white/90 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </div>
+              className="absolute right-0 top-0 bottom-0 w-20 md:w-32 z-20 group cursor-e-resize flex items-center justify-end pr-4 md:pr-6">
+              <span className="font-serif text-2xl md:text-3xl text-white/0 group-hover:text-white/50 transition-all duration-500 translate-x-2 group-hover:translate-x-0">
+                ›
+              </span>
             </button>
           )}
         </div>
