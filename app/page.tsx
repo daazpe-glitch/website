@@ -19,7 +19,7 @@ const sections = {
     ),
   },
   trabajo: {
-    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?w=1400&q=80",
     overlay: (
       <div className="absolute inset-0 flex items-center justify-end bg-gradient-to-l from-black/50 via-transparent to-transparent px-8 md:px-16">
         <div className="max-w-md text-right text-[#f5f0e8]">
@@ -62,7 +62,7 @@ const sections = {
     ),
   },
   proyectos: {
-    image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400&q=80",
     overlay: (
       <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 via-transparent to-transparent px-8 md:px-16 pb-10 md:pb-16">
         <div className="text-[#f5f0e8]">
@@ -82,7 +82,7 @@ const sections = {
     ),
   },
   contacto: {
-    image: "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1400&q=80",
     overlay: (
       <div className="absolute inset-0 flex items-center justify-center bg-black/30 px-6">
         <div className="max-w-md text-center text-[#f5f0e8]">
@@ -114,7 +114,17 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [entered, setEntered] = useState(false);
 
-  /* ─── Preload all images ─── */
+  const goNext = useCallback(() => {
+    const idx = navItems.indexOf(active);
+    setActive(navItems[(idx + 1) % navItems.length]);
+  }, [active]);
+
+  const goPrev = useCallback(() => {
+    const idx = navItems.indexOf(active);
+    setActive(navItems[(idx - 1 + navItems.length) % navItems.length]);
+  }, [active]);
+
+  /* Preload images */
   useEffect(() => {
     Object.values(sections).forEach(({ image }) => {
       const img = new Image();
@@ -122,55 +132,43 @@ export default function Home() {
     });
   }, []);
 
-  /* ─── Intro animation ─── */
+  /* Intro */
   useEffect(() => {
     const t = setTimeout(() => setEntered(true), 100);
     return () => clearTimeout(t);
   }, []);
 
-  /* ─── Keyboard nav ─── */
-  const handleKey = useCallback((e: KeyboardEvent) => {
-    const idx = navItems.indexOf(active);
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-      e.preventDefault();
-      setActive(navItems[(idx + 1) % navItems.length]);
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-      e.preventDefault();
-      setActive(navItems[(idx - 1 + navItems.length) % navItems.length]);
-    }
-  }, [active]);
-
+  /* Keyboard */
   useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); goNext(); }
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); goPrev(); }
+    };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [handleKey]);
+  }, [goNext, goPrev]);
 
-  /* ─── Touch swipe ─── */
+  /* Touch swipe */
   useEffect(() => {
-    let startX = 0;
-    let startY = 0;
-    const onStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    };
+    let startX = 0, startY = 0;
+    const onStart = (e: TouchEvent) => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; };
     const onEnd = (e: TouchEvent) => {
       const dx = e.changedTouches[0].clientX - startX;
       const dy = e.changedTouches[0].clientY - startY;
       if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
-      const idx = navItems.indexOf(active);
-      if (dx < 0) setActive(navItems[(idx + 1) % navItems.length]);
-      else setActive(navItems[(idx - 1 + navItems.length) % navItems.length]);
+      if (dx < 0) goNext(); else goPrev();
     };
     window.addEventListener("touchstart", onStart, { passive: true });
     window.addEventListener("touchend", onEnd, { passive: true });
-    return () => {
-      window.removeEventListener("touchstart", onStart);
-      window.removeEventListener("touchend", onEnd);
-    };
-  }, [active]);
+    return () => { window.removeEventListener("touchstart", onStart); window.removeEventListener("touchend", onEnd); };
+  }, [goNext, goPrev]);
+
+  const currentIdx = navItems.indexOf(active);
+  const isFirst = currentIdx === 0;
+  const isLast = currentIdx === navItems.length - 1;
 
   return (
-    <main className="h-screen w-screen overflow-hidden bg-[#d4cdbf] flex flex-col cursor-crosshair">
+    <main className="h-screen w-screen overflow-hidden bg-[#d4cdbf] flex flex-col select-none">
       {/* Film grain */}
       <div className="fixed inset-0 opacity-[0.06] pointer-events-none z-50 mix-blend-multiply" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -184,18 +182,18 @@ export default function Home() {
         className="flex justify-between items-center px-6 md:px-10 py-4 md:py-5 z-30 flex-shrink-0"
       >
         <button onClick={() => setActive("home")}
-          className="font-serif text-lg md:text-xl font-light tracking-[4px] uppercase text-[#3a352d] hover:opacity-60 transition-opacity">
+          className="font-serif text-lg md:text-xl font-light tracking-[4px] uppercase text-[#3a352d] hover:opacity-60 transition-opacity cursor-pointer">
           Daniel Azpe
         </button>
         <div className="hidden md:flex items-center gap-8">
           {navItems.filter(n => n !== "home").map((item) => (
             <button key={item} onClick={() => setActive(item)}
-              className={`font-mono text-[10px] tracking-[3px] uppercase transition-all duration-300 text-[#3a352d] ${active === item ? "opacity-100" : "opacity-35 hover:opacity-70"}`}>
+              className={`font-mono text-[10px] tracking-[3px] uppercase transition-all duration-300 text-[#3a352d] cursor-pointer ${active === item ? "opacity-100" : "opacity-35 hover:opacity-70"}`}>
               {item}
             </button>
           ))}
         </div>
-        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden flex flex-col gap-[5px] w-6" aria-label="Menu">
+        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden flex flex-col gap-[5px] w-6 cursor-pointer" aria-label="Menu">
           <motion.span animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }} className="block h-[1px] w-full bg-[#3a352d]" />
           <motion.span animate={menuOpen ? { opacity: 0 } : { opacity: 1 }} className="block h-[1px] w-full bg-[#3a352d]" />
           <motion.span animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }} className="block h-[1px] w-full bg-[#3a352d]" />
@@ -207,13 +205,13 @@ export default function Home() {
         {menuOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 bg-[#d4cdbf]/98 backdrop-blur-lg flex flex-col items-center justify-center gap-8">
-            <button onClick={() => setMenuOpen(false)} className="absolute top-5 right-6 text-lg text-[#3a352d]">✕</button>
+            <button onClick={() => setMenuOpen(false)} className="absolute top-5 right-6 text-lg text-[#3a352d] cursor-pointer">✕</button>
             {navItems.map((item, i) => (
               <motion.button key={item}
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
                 onClick={() => { setActive(item); setMenuOpen(false); }}
-                className={`font-serif text-2xl font-light tracking-[3px] uppercase text-[#3a352d] ${active === item ? "opacity-100" : "opacity-35"}`}>
+                className={`font-serif text-2xl font-light tracking-[3px] uppercase text-[#3a352d] cursor-pointer ${active === item ? "opacity-100" : "opacity-35"}`}>
                 {item}
               </motion.button>
             ))}
@@ -226,7 +224,7 @@ export default function Home() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: entered ? 1 : 0, scale: entered ? 1 : 0.95 }}
         transition={{ duration: 1.2, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-        className="flex-1 px-4 md:px-10 pb-4 md:pb-5 min-h-0"
+        className="flex-1 px-4 md:px-10 pb-4 md:pb-5 min-h-0 relative"
       >
         <div className="relative w-full h-full overflow-hidden">
           <AnimatePresence mode="wait">
@@ -256,27 +254,29 @@ export default function Home() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Explore hint — only on home */}
-          <AnimatePresence>
-            {active === "home" && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 2, duration: 1 }}
-                className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-              >
-                <p className="font-mono text-[9px] tracking-[3px] uppercase text-[#f5f0e8]/40">Explora</p>
-                <motion.div
-                  animate={{ x: [0, 6, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
-                  className="text-[#f5f0e8]/30 text-sm"
-                >
-                  →
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* ─── SIDE ARROWS ─── */}
+          {!isFirst && (
+            <button onClick={goPrev}
+              className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 group cursor-pointer">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center
+                backdrop-blur-sm bg-black/10 group-hover:bg-black/25 group-hover:border-white/40 transition-all duration-300">
+                <svg className="w-4 h-4 md:w-5 md:h-5 text-white/60 group-hover:text-white/90 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </div>
+            </button>
+          )}
+          {!isLast && (
+            <button onClick={goNext}
+              className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 group cursor-pointer">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center
+                backdrop-blur-sm bg-black/10 group-hover:bg-black/25 group-hover:border-white/40 transition-all duration-300">
+                <svg className="w-4 h-4 md:w-5 md:h-5 text-white/60 group-hover:text-white/90 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </div>
+            </button>
+          )}
         </div>
       </motion.div>
 
@@ -289,18 +289,24 @@ export default function Home() {
       >
         <div className="hidden md:flex gap-8">
           <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer"
-            className="font-mono text-[9px] tracking-[3px] uppercase text-[#3a352d]/25 hover:text-[#3a352d]/60 transition-colors">
+            className="font-mono text-[9px] tracking-[3px] uppercase text-[#3a352d]/25 hover:text-[#3a352d]/60 transition-colors cursor-pointer">
             Timeless Studios
           </a>
           {["Proyectos", "Bodas"].map((t) => (
             <span key={t} className="font-mono text-[9px] tracking-[3px] uppercase text-[#3a352d]/25 cursor-pointer hover:text-[#3a352d]/50 transition-colors">{t}</span>
           ))}
         </div>
-        <div className="flex gap-2 ml-auto">
-          {navItems.map((item) => (
+
+        {/* Section indicators with labels */}
+        <div className="flex gap-4 ml-auto items-center">
+          {navItems.map((item, i) => (
             <button key={item} onClick={() => setActive(item)}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/70 scale-125" : "bg-[#3a352d]/15"}`}
-            />
+              className="flex items-center gap-1.5 group cursor-pointer">
+              <span className={`w-2 h-2 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/70 scale-125" : "bg-[#3a352d]/15 group-hover:bg-[#3a352d]/30"}`} />
+              <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[#3a352d]/60" : "text-[#3a352d]/0 group-hover:text-[#3a352d]/35"}`}>
+                {item}
+              </span>
+            </button>
           ))}
         </div>
       </motion.div>
