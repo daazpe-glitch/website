@@ -1,278 +1,329 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] as const } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.15 } },
-};
-
-function Section({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) {
-  return (
-    <motion.section
-      id={id}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      variants={stagger}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  );
-}
-
-function ParallaxImage({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  return (
-    <div ref={ref} className={`overflow-hidden ${className}`}>
-      <motion.img
-        src={src}
-        alt={alt}
-        style={{ y }}
-        className="w-full h-full object-cover scale-110"
-        loading="lazy"
-      />
-    </div>
-  );
-}
-
-const clients = ["IPADE", "U. Panamericana", "Tequila San Matías", "De la Rosa", "Blen", "Kibox"];
-
-export default function Home() {
-  return (
-    <main className="relative">
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
-        <div className="flex justify-between items-center px-6 md:px-12 py-6">
-          <a href="#" className="text-white font-serif text-lg tracking-wide hover:text-white/80 transition-colors">Daniel Azpe</a>
-          <div className="hidden md:flex gap-8 text-white/70 text-xs tracking-editorial">
-            <a href="#trabajo" className="hover:text-white transition-colors">Trabajo</a>
-            <a href="#sobre-mi" className="hover:text-white transition-colors">Sobre mí</a>
-            <a href="#contacto" className="hover:text-white transition-colors">Contacto</a>
+/* ─── Section data ─── */
+const sections = {
+  home: {
+    image: "/images/light-bokeh.jpg",
+    overlay: (
+      <div className="absolute bottom-10 right-8 md:bottom-16 md:right-16 text-right text-[#f5f0e8]">
+        <p className="font-mono text-[10px] md:text-xs tracking-[5px] uppercase opacity-50 mb-4">
+          Artista · Storyteller · Builder
+        </p>
+        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl font-light leading-[1.1] mb-4">
+          Storytelling<br />that <em className="font-script text-5xl md:text-7xl lg:text-8xl not-italic">feels.</em>
+        </h2>
+      </div>
+    ),
+  },
+  trabajo: {
+    image: "/images/golden-grain.jpg",
+    overlay: (
+      <div className="absolute inset-0 flex items-center justify-end bg-gradient-to-l from-black/50 via-transparent to-transparent px-8 md:px-16">
+        <div className="max-w-md text-right text-[#f5f0e8]">
+          <p className="font-mono text-[10px] tracking-[5px] uppercase opacity-40 mb-8">Lo que hago</p>
+          <div className="space-y-8">
+            <div>
+              <h3 className="font-serif text-2xl md:text-3xl font-light">Cine & Documental</h3>
+              <p className="font-script text-base md:text-lg opacity-50 mt-1">Tu historia merece verse como película.</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-2xl md:text-3xl font-light">Creatividad + Tecnología</h3>
+              <p className="font-script text-base md:text-lg opacity-50 mt-1">El futuro de crear ya llegó.</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-2xl md:text-3xl font-light opacity-50">Productos para Creativos</h3>
+              <p className="font-script text-base md:text-lg opacity-30 mt-1">Próximamente...</p>
+            </div>
           </div>
         </div>
-      </nav>
-
-      {/* HERO */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1533577116850-9cc66cad8a9b?w=1600&q=80"
-            alt="Hero"
-            className="w-full h-full object-cover opacity-40 grayscale"
-          />
-          <div className="absolute inset-0 bg-cream/30" />
-        </div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative text-center z-10 px-6"
-        >
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mt-6 text-warm-gray font-serif text-lg md:text-xl italic mb-8"
-          >
-            Artista · Storyteller · Builder
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 1 }}
-            className="font-serif text-4xl md:text-6xl lg:text-7xl font-light text-ink tracking-wide leading-tight max-w-4xl mx-auto"
-          >
+      </div>
+    ),
+  },
+  "sobre mí": {
+    image: "/images/shadow-blinds.jpg",
+    overlay: (
+      <div className="absolute inset-0 flex items-center justify-center px-8">
+        <div className="max-w-lg text-center text-[#f5f0e8]">
+          <blockquote className="font-script text-3xl md:text-4xl lg:text-5xl leading-[1.35] opacity-90">
             Creo para que algo quede.<br />Para que algo cambie.
-          </motion.h1>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 1 }}
-            className="mt-16"
-          >
-            <div className="w-px h-16 bg-warm-gray/40 mx-auto animate-pulse" />
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* TRABAJO */}
-      <Section id="trabajo" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-ink text-cream">
-        <div className="max-w-7xl mx-auto">
-          <motion.p variants={fadeUp} className="tracking-editorial text-warm-gray mb-8">Trabajo</motion.p>
-          
-          {/* PARTE A — Lo que hago */}
-          <motion.h2 variants={fadeUp} className="font-serif text-4xl md:text-6xl font-light mb-20">
-            Lo que hago
-          </motion.h2>
-          <div className="grid md:grid-cols-3 gap-12 md:gap-16 mb-32">
-            {[
-              {
-                icon: "🎬",
-                title: "Cine & Documental",
-                desc: "Historias que merecen ser contadas con la imagen que merecen. Documental, cortometraje, video para marcas.",
-                img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80",
-              },
-              {
-                icon: "🤖",
-                title: "Creatividad + Tecnología",
-                desc: "Uso inteligencia artificial para crear lo que antes no era posible. Pinturas que cobran vida, nuevos formatos, herramientas para creativos.",
-                img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80",
-              },
-              {
-                icon: "📦",
-                title: "Productos Digitales",
-                desc: "Herramientas y recursos para creativos. Pronto.",
-                img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80",
-              },
-            ].map((item, i) => (
-              <motion.div key={i} variants={fadeUp} className="group cursor-pointer">
-                <div className="overflow-hidden aspect-[16/10] mb-6 rounded-sm">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                    loading="lazy"
-                  />
-                </div>
-                <p className="text-2xl mb-1">
-                  <span className="mr-2">{item.icon}</span>
-                  <span className="font-serif">{item.title}</span>
-                </p>
-                <p className="text-warm-gray text-sm leading-relaxed">{item.desc}</p>
-              </motion.div>
+          </blockquote>
+          <div className="mt-10 flex items-center justify-center gap-3 opacity-40">
+            <div className="w-8 h-px bg-[#f5f0e8]" />
+            <p className="font-mono text-[10px] tracking-[4px] uppercase">
+              Guadalajara, MX
+            </p>
+            <div className="w-8 h-px bg-[#f5f0e8]" />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  proyectos: {
+    image: "/images/motion-blur.jpg",
+    overlay: (
+      <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 via-transparent to-transparent px-8 md:px-16 pb-10 md:pb-16">
+        <div className="text-[#f5f0e8]">
+          <p className="font-mono text-[10px] tracking-[5px] uppercase opacity-40 mb-4">Proyectos</p>
+          <h3 className="font-serif text-3xl md:text-5xl font-light mb-2">Faraway Land</h3>
+          <p className="font-script text-lg md:text-xl opacity-50 mb-4">Un documental que cruzó fronteras.</p>
+          <div className="font-mono text-[10px] tracking-[3px] uppercase opacity-40 leading-loose">
+            3 premios internacionales · 10 festivales · 5 países
+          </div>
+          <div className="mt-8 pt-6 border-t border-[#f5f0e8]/10 flex flex-wrap gap-x-6 gap-y-1">
+            {["IPADE", "U. Panamericana", "Tequila San Matías", "De la Rosa", "Blen", "Kibox"].map((c) => (
+              <span key={c} className="font-serif text-sm opacity-25">{c}</span>
             ))}
           </div>
-
-          {/* PARTE B — Faraway Land */}
-          <motion.div variants={fadeUp} className="mb-32">
-            <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
-              <div>
-                <ParallaxImage
-                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
-                  alt="Faraway Land"
-                  className="aspect-[4/3] rounded-sm"
-                />
-              </div>
-              <div>
-                <span className="tracking-editorial text-warm-gray">Proyecto destacado</span>
-                <h3 className="font-serif text-3xl md:text-5xl font-light mt-4 mb-4">Faraway Land</h3>
-                <p className="text-warm-gray leading-relaxed text-lg mb-6">
-                  Largometraje documental que recorrió 10 festivales en 5 países.
-                </p>
-                <ul className="space-y-2 text-cream/80">
-                  <li className="flex items-start gap-3">
-                    <span className="text-warm-gray">·</span>
-                    <span>Mejor Largometraje — Festival de Cine de Madrid</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-warm-gray">·</span>
-                    <span>Mejor Fotografía — Festival de Cine de Madrid</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-warm-gray">·</span>
-                    <span>Mejor Documental — Festival Internacional de Guayaquil</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* PARTE C — Clientes */}
-          <motion.div variants={fadeUp} className="text-center">
-            <p className="tracking-editorial text-warm-gray mb-12">
-              Clientes
-            </p>
-            <div className="flex flex-wrap justify-center gap-8 md:gap-14">
-              {clients.map((client) => (
-                <span
-                  key={client}
-                  className="font-serif text-xl md:text-2xl text-cream/60 hover:text-cream transition-colors duration-500"
-                >
-                  {client}
-                </span>
-              ))}
-            </div>
-          </motion.div>
         </div>
-      </Section>
-
-      {/* SOBRE MÍ */}
-      <Section id="sobre-mi" className="py-24 md:py-40 px-6 md:px-12 lg:px-24">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-24 items-center">
-          <motion.div variants={fadeUp}>
-            <ParallaxImage
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
-              alt="Portrait"
-              className="aspect-[3/4] rounded-sm grayscale hover:grayscale-0 transition-all duration-700"
-            />
-          </motion.div>
-          <motion.div variants={fadeUp}>
-            <p className="tracking-editorial text-warm-gray mb-8">Sobre mí</p>
-            <p className="font-serif text-3xl md:text-4xl font-light leading-tight text-ink mb-8">
-              Soy Daniel.
-            </p>
-            <div className="space-y-6 text-ink-light leading-relaxed text-lg max-w-lg">
-              <p>
-                Hago documentales que cuentan lo que importa. Creo video que se siente como cine. Construyo herramientas con inteligencia artificial.
-              </p>
-              <p>
-                Mi documental <em>Faraway Land</em> ganó 3 premios internacionales y recorrió 10 festivales en 5 países. He trabajado con IPADE, Tequila San Matías, De la Rosa y Universidad Panamericana.
-              </p>
-              <p>
-                Creo en que lo más importante es hacer cosas que importen — con el nivel de detalle y belleza que merecen.
-              </p>
-              <p className="text-warm-gray">
-                Guadalajara, MX
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* CONTACTO */}
-      <Section id="contacto" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 bg-ink text-cream">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.p variants={fadeUp} className="tracking-editorial text-warm-gray mb-8">Contacto</motion.p>
-          <motion.h2 variants={fadeUp} className="font-serif text-5xl md:text-7xl font-light mb-8">
-            Platiquemos.
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-warm-gray text-lg max-w-lg mx-auto mb-12">
-            ¿Tienes una historia que contar? ¿Un proyecto que necesita verse como merece?
-          </motion.p>
-          <motion.div variants={fadeUp} className="space-y-4">
-            <a
-              href="mailto:hola@danielazpe.com"
-              className="inline-block font-serif text-2xl md:text-3xl text-cream hover:text-sand transition-colors border-b border-cream/30 hover:border-sand pb-1"
-            >
-              hola@danielazpe.com
-            </a>
-            <div className="flex justify-center gap-8 mt-8">
-              <a href="https://instagram.com/danielazpe" target="_blank" rel="noopener noreferrer" className="tracking-editorial text-warm-gray hover:text-cream transition-colors">Instagram</a>
-              <a href="https://linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="tracking-editorial text-warm-gray hover:text-cream transition-colors">LinkedIn</a>
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* FOOTER */}
-      <footer className="py-8 px-6 md:px-12 bg-ink text-warm-gray/50 border-t border-warm-gray/10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs tracking-editorial">
-          <span>Daniel Azpe © 2026</span>
-          <div className="flex gap-6">
-            <a href="https://instagram.com/danielazpe" target="_blank" rel="noopener noreferrer" className="hover:text-cream transition-colors">Instagram</a>
-            <a href="https://linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="hover:text-cream transition-colors">LinkedIn</a>
+      </div>
+    ),
+  },
+  contacto: {
+    image: "/images/blue-motion.jpg",
+    overlay: (
+      <div className="absolute inset-0 flex items-center justify-center bg-black/30 px-6">
+        <div className="max-w-md text-center text-[#f5f0e8]">
+          <h2 className="font-serif text-4xl md:text-6xl font-light mb-4">Platiquemos.</h2>
+          <p className="font-script text-lg md:text-2xl opacity-60 leading-relaxed mb-10">
+            ¿Tienes una historia que contar?<br />¿Un proyecto que necesita verse como merece?
+          </p>
+          <a href="mailto:hola@danielazpe.com"
+            className="inline-block font-mono text-xs tracking-[3px] uppercase border border-[#f5f0e8]/30 px-8 py-3 hover:bg-[#f5f0e8]/10 transition-colors duration-300">
+            hola@danielazpe.com
+          </a>
+          <div className="flex justify-center gap-8 mt-8">
+            <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer"
+              className="font-mono text-[10px] tracking-[3px] uppercase opacity-30 hover:opacity-80 transition-opacity">Instagram</a>
+            <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer"
+              className="font-mono text-[10px] tracking-[3px] uppercase opacity-30 hover:opacity-80 transition-opacity">LinkedIn</a>
           </div>
         </div>
-      </footer>
+      </div>
+    ),
+  },
+};
+
+type SectionKey = keyof typeof sections;
+const navItems: SectionKey[] = ["home", "trabajo", "sobre mí", "proyectos", "contacto"];
+
+export default function Home() {
+  const [active, setActive] = useState<SectionKey>("home");
+  const [prevActive, setPrevActive] = useState<SectionKey>("home");
+  const [direction, setDirection] = useState(0); // -1 left, 1 right
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
+
+
+  const bgColors = {
+    cafe: { bg: "#d4cdbf", text: "#3a352d" },
+    blanco: { bg: "#ffffff", text: "#1a1a1a" },
+    crema: { bg: "#f5f0ea", text: "#2a2520" },
+  };
+  const [entered, setEntered] = useState(false);
+
+  const goTo = useCallback((target: SectionKey) => {
+    const fromIdx = navItems.indexOf(active);
+    const toIdx = navItems.indexOf(target);
+    setDirection(toIdx > fromIdx ? 1 : -1);
+    setPrevActive(active);
+    setActive(target);
+  }, [active]);
+
+  const goNext = useCallback(() => {
+    const idx = navItems.indexOf(active);
+    goTo(navItems[(idx + 1) % navItems.length]);
+  }, [active, goTo]);
+
+  const goPrev = useCallback(() => {
+    const idx = navItems.indexOf(active);
+    goTo(navItems[(idx - 1 + navItems.length) % navItems.length]);
+  }, [active, goTo]);
+
+  /* Preload images */
+  useEffect(() => {
+    Object.values(sections).forEach(({ image }) => {
+      const img = new Image();
+      img.src = image;
+    });
+  }, []);
+
+  /* Intro */
+  useEffect(() => {
+    const t = setTimeout(() => setEntered(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  /* Keyboard */
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); goNext(); }
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); goPrev(); }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [goNext, goPrev]);
+
+  /* Touch swipe */
+  useEffect(() => {
+    let startX = 0, startY = 0;
+    const onStart = (e: TouchEvent) => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; };
+    const onEnd = (e: TouchEvent) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx < 0) goNext(); else goPrev();
+    };
+    window.addEventListener("touchstart", onStart, { passive: true });
+    window.addEventListener("touchend", onEnd, { passive: true });
+    return () => { window.removeEventListener("touchstart", onStart); window.removeEventListener("touchend", onEnd); };
+  }, [goNext, goPrev]);
+
+  const currentIdx = navItems.indexOf(active);
+  const isFirst = currentIdx === 0;
+  const isLast = currentIdx === navItems.length - 1;
+
+  return (
+    <main className="h-screen w-screen overflow-hidden flex flex-col select-none transition-colors duration-500" style={{ backgroundColor: bgColors[bgTheme].bg, "--nav-color": bgColors[bgTheme].text } as React.CSSProperties}>
+
+
+      {/* Film grain */}
+      <div className="fixed inset-0 opacity-[0.06] pointer-events-none z-50 mix-blend-multiply" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+      }} />
+
+      {/* ─── NAV ─── */}
+      <motion.nav
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: entered ? 1 : 0, y: entered ? 0 : -20 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="flex justify-between items-center px-6 md:px-10 py-4 md:py-5 z-30 flex-shrink-0"
+      >
+        <button onClick={() => goTo("home")}
+          className="font-serif text-lg md:text-xl font-light tracking-[4px] uppercase text-[var(--nav-color)] hover:opacity-60 transition-opacity cursor-pointer">
+          Daniel Azpe
+        </button>
+        <div className="hidden md:flex items-center gap-8">
+          {navItems.filter(n => n !== "home").map((item) => (
+            <button key={item} onClick={() => goTo(item)}
+              className={`font-mono text-[10px] tracking-[3px] uppercase transition-all duration-300 text-[var(--nav-color)] cursor-pointer ${active === item ? "opacity-100" : "opacity-35 hover:opacity-70"}`}>
+              {item}
+            </button>
+          ))}
+        </div>
+        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden flex flex-col gap-[5px] w-6 cursor-pointer" aria-label="Menu">
+          <motion.span animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }} className="block h-[1px] w-full bg-[#3a352d]" />
+          <motion.span animate={menuOpen ? { opacity: 0 } : { opacity: 1 }} className="block h-[1px] w-full bg-[#3a352d]" />
+          <motion.span animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }} className="block h-[1px] w-full bg-[#3a352d]" />
+        </button>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 backdrop-blur-lg flex flex-col items-center justify-center gap-8" style={{ backgroundColor: bgColors[bgTheme].bg + "f8" }}>
+            <button onClick={() => setMenuOpen(false)} className="absolute top-5 right-6 text-lg text-[var(--nav-color)] cursor-pointer">✕</button>
+            {navItems.map((item, i) => (
+              <motion.button key={item}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                onClick={() => { goTo(item); setMenuOpen(false); }}
+                className={`font-serif text-2xl font-light tracking-[3px] uppercase text-[var(--nav-color)] cursor-pointer ${active === item ? "opacity-100" : "opacity-35"}`}>
+                {item}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ─── IMAGE FRAME ─── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: entered ? 1 : 0, scale: entered ? 1 : 0.95 }}
+        transition={{ duration: 1.2, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+        className="flex-1 px-4 md:px-10 pb-4 md:pb-5 min-h-0 relative"
+      >
+        <div className="relative w-full h-full overflow-hidden">
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={active}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              className="absolute inset-0"
+            >
+              <img
+                src={sections[active].image}
+                alt=""
+                className="w-full h-full object-cover sepia-[0.3] contrast-[1.1] brightness-[0.85] saturate-[0.7]"
+              />
+              <div className="absolute inset-0 bg-[#8b7355]/10 mix-blend-multiply" />
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="absolute inset-0"
+              >
+                {sections[active].overlay}
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* ─── SIDE NAV ZONES ─── */}
+          {!isFirst && (
+            <button onClick={goPrev}
+              className="absolute left-0 top-0 bottom-0 w-20 md:w-32 z-20 group cursor-w-resize flex items-center justify-start pl-4 md:pl-6">
+              <span className="font-serif text-2xl md:text-3xl text-white/0 group-hover:text-white/50 transition-all duration-500 -translate-x-2 group-hover:translate-x-0">
+                ‹
+              </span>
+            </button>
+          )}
+          {!isLast && (
+            <button onClick={goNext}
+              className="absolute right-0 top-0 bottom-0 w-20 md:w-32 z-20 group cursor-e-resize flex items-center justify-end pr-4 md:pr-6">
+              <span className="font-serif text-2xl md:text-3xl text-white/0 group-hover:text-white/50 transition-all duration-500 translate-x-2 group-hover:translate-x-0">
+                ›
+              </span>
+            </button>
+          )}
+        </div>
+      </motion.div>
+
+      {/* ─── BOTTOM BAR ─── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: entered ? 1 : 0, y: entered ? 0 : 20 }}
+        transition={{ duration: 1, delay: 0.7 }}
+        className="flex justify-between items-center px-6 md:px-10 py-3 md:py-4 flex-shrink-0"
+      >
+        <div className="hidden md:flex gap-8">
+          <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer"
+            className="font-mono text-[9px] tracking-[3px] uppercase text-[var(--nav-color)]/25 hover:text-[var(--nav-color)]/60 transition-colors cursor-pointer">
+            Timeless Studios
+          </a>
+          {["Proyectos", "Bodas"].map((t) => (
+            <span key={t} className="font-mono text-[9px] tracking-[3px] uppercase text-[var(--nav-color)]/25 cursor-pointer hover:text-[var(--nav-color)]/50 transition-colors">{t}</span>
+          ))}
+        </div>
+
+        {/* Section indicators with labels */}
+        <div className="flex gap-4 ml-auto items-center">
+          {navItems.map((item, i) => (
+            <button key={item} onClick={() => goTo(item)}
+              className="flex items-center gap-1.5 group cursor-pointer">
+              <span className={`w-2 h-2 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/70 scale-125" : "bg-[#3a352d]/15 group-hover:bg-[#3a352d]/30"}`} />
+              <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/60" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/35"}`}>
+                {item}
+              </span>
+            </button>
+          ))}
+        </div>
+      </motion.div>
     </main>
   );
 }
