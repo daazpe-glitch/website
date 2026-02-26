@@ -221,14 +221,7 @@ export default function Home() {
           className="font-serif text-lg md:text-xl font-light tracking-[4px] uppercase text-[var(--nav-color)] hover:opacity-60 transition-opacity cursor-pointer">
           Daniel Azpe
         </button>
-        <div className="hidden md:flex items-center gap-8">
-          {navItems.filter(n => n !== "home").map((item) => (
-            <button key={item} onClick={() => goTo(item)}
-              className={`font-mono text-[10px] tracking-[3px] uppercase transition-all duration-300 text-[var(--nav-color)] cursor-pointer ${active === item ? "opacity-100" : "opacity-35 hover:opacity-70"}`}>
-              {item}
-            </button>
-          ))}
-        </div>
+
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden flex flex-col gap-[5px] w-6 cursor-pointer" aria-label="Menu">
           <motion.span animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }} className="block h-[1px] w-full bg-[#3a352d]" />
           <motion.span animate={menuOpen ? { opacity: 0 } : { opacity: 1 }} className="block h-[1px] w-full bg-[#3a352d]" />
@@ -322,13 +315,6 @@ export default function Home() {
         transition={{ duration: 1, delay: 0.7 }}
         className="flex justify-between items-center px-6 md:px-10 py-3 md:py-4 flex-shrink-0"
       >
-        <div className="hidden md:flex gap-8 items-center">
-          <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer"
-            className="font-mono text-[9px] tracking-[3px] uppercase text-[var(--nav-color)]/25 hover:text-[var(--nav-color)]/60 transition-colors cursor-pointer">
-            Timeless Studios
-          </a>
-        </div>
-
         {/* Section indicators — labeled lines */}
         <div className="flex gap-8 ml-auto items-end">
           <div className="w-full h-px bg-[#3a352d]/8 absolute left-0 right-0" style={{ display: "none" }} />
