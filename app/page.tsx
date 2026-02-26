@@ -274,13 +274,10 @@ export default function Home() {
                   { award: "Mejor Fotografía", fest: "Festival de Cine de Madrid" },
                   { award: "Mejor Documental", fest: "Festival Int. de Guayaquil" },
                 ].map(({ award, fest }) => (
-                  <div key={award} className="flex items-start gap-3">
-                    <span className="font-display text-lg opacity-30 mt-0.5">✦</span>
-                    <div>
+                  <div key={award}>
                       <p className="font-display text-[15px] md:text-base opacity-75">{award}</p>
                       <p className="font-mono text-[7px] tracking-[2px] uppercase opacity-25 mt-0.5">{fest}</p>
                     </div>
-                  </div>
                 ))}
               </div>
               <p className="font-display text-xs italic opacity-25 mt-8">Faraway Land — Documental, 2018 · 10 festivales · 5 países</p>
