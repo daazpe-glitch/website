@@ -29,12 +29,11 @@ const sections = {
               <h3 className="font-serif text-2xl md:text-3xl font-light">Documental de impacto</h3>
               <p className="font-script text-base md:text-lg opacity-50 mt-2">Historias que necesitan ser contadas.</p>
             </div>
-            <div>
-              <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="group">
-                <h3 className="font-serif text-2xl md:text-3xl font-light inline-flex items-center gap-2">Video para marcas <span className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300">&rarr;</span></h3>
-              </a>
+            <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="block group">
+              <h3 className="font-serif text-2xl md:text-3xl font-light">Video para marcas</h3>
               <p className="font-script text-base md:text-lg opacity-50 mt-2">Video cinematográfico para empresas.</p>
-            </div>
+              <p className="font-mono text-[10px] tracking-[3px] uppercase opacity-30 group-hover:opacity-60 mt-3 transition-all duration-300 inline-flex items-center gap-1.5">vía Timeless Studios <span className="group-hover:translate-x-1 transition-transform duration-300">&rarr;</span></p>
+            </a>
           </div>
         </div>
       </div>
