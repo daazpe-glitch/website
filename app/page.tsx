@@ -8,12 +8,12 @@ const sections = {
   home: {
     image: "/images/light-bokeh.jpg",
     overlay: (
-      <div className="absolute bottom-10 right-8 md:bottom-16 md:right-16 text-right text-[#f5f0e8]">
+      <div className="absolute bottom-10 left-8 md:bottom-16 md:left-16 text-left text-[#f5f0e8]">
         <p className="font-mono text-[10px] md:text-xs tracking-[5px] uppercase opacity-50 mb-4">
-          Artista · Storyteller · Builder
+          Documentalista · Filmmaker
         </p>
         <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl font-light leading-[1.1] mb-4">
-          Storytelling<br />that <em className="font-script text-5xl md:text-7xl lg:text-8xl not-italic">feels.</em>
+          Historias que<br />se <em className="font-script text-5xl md:text-7xl lg:text-8xl not-italic">quedan.</em>
         </h2>
       </div>
     ),
