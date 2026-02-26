@@ -154,23 +154,25 @@ export default function Home() {
 
     /* ─── Contacto overlay variants ─── */
   const contactOverlay = (
-    <div className="absolute inset-0 flex items-center justify-center px-10 md:px-20">
+    <div className="absolute inset-0 flex items-center justify-center px-6 md:px-20">
       <div className="max-w-2xl w-full">
-        <div className="w-full h-px bg-[#2a2520]/8 mb-10" />
-        <div className="flex gap-10 md:gap-16 text-[#2a2520]">
+        <div className="w-full h-px bg-[#2a2520]/8 mb-8 md:mb-10" />
+        <div className="flex flex-col md:flex-row gap-8 md:gap-16 text-[#2a2520]">
           <div className="flex-1 text-left">
-            <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-6">Sobre</p>
-            <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-3">
+            <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4 md:mb-6">Sobre</p>
+            <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-2 md:mb-3">
               Soy Daniel. Hago documentales, video y experimento con IA.
             </p>
             <p className="font-display text-sm italic opacity-30">
               Nací en Hmo. Vivo en Guadalajara.
             </p>
           </div>
-          <div className="w-px bg-[#2a2520]/8 self-stretch" />
+          {/* Divider */}
+          <div className="hidden md:block w-px bg-[#2a2520]/8 self-stretch" />
+          <div className="md:hidden w-16 h-px bg-[#2a2520]/6" />
           <div className="flex-1 text-left flex flex-col justify-center">
-            <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-6">Contacto</p>
-            <a href="mailto:daniel@timeless.mx" className="block font-display text-lg md:text-xl opacity-55 hover:opacity-85 transition-opacity duration-300 mb-6 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/30">
+            <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4 md:mb-6">Contacto</p>
+            <a href="mailto:daniel@timeless.mx" className="block font-display text-base md:text-xl opacity-55 hover:opacity-85 transition-opacity duration-300 mb-5 md:mb-6 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/30">
               daniel@timeless.mx
             </a>
             <div className="flex gap-5">
@@ -179,17 +181,17 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-full h-px bg-[#2a2520]/8 mt-10" />
+        <div className="w-full h-px bg-[#2a2520]/8 mt-8 md:mt-10" />
       </div>
     </div>
   );
 
     /* ─── Trabajo overlay ─── */
   const trabajoOverlay = (
-      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/20 via-transparent to-black/30 px-12 md:px-24 lg:px-32">
+      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/20 via-transparent to-black/30 px-6 md:px-24 lg:px-32">
         {/* Left service — links to proyectos */}
-        <div className="flex-1 flex justify-end pr-10 md:pr-16">
-          <button onClick={(e) => { e.stopPropagation(); goTo("créditos"); }} className="group cursor-pointer max-w-[300px] text-right text-[#f5f0e8] transition-all duration-500 hover:scale-[1.02]">
+        <div className="flex-1 flex justify-center md:justify-end pr-0 md:pr-16">
+          <button onClick={(e) => { e.stopPropagation(); goTo("créditos"); }} className="group cursor-pointer max-w-[300px] text-center md:text-right text-[#f5f0e8] transition-all duration-500 hover:scale-[1.02]">
             <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4">01</p>
             <h3 className="font-display text-2xl md:text-[34px] font-normal tracking-[0.02em] opacity-85 group-hover:opacity-100 leading-[1.2] transition-opacity duration-500">Documental<br />de Impacto</h3>
             <p className="font-display text-sm md:text-base italic opacity-30 group-hover:opacity-50 mt-3 transition-opacity duration-500">Historias que necesitan ser contadas.</p>
@@ -201,13 +203,13 @@ export default function Home() {
         </div>
 
         {/* Center divider */}
-        <div className="flex flex-col items-center opacity-12 mx-2 self-center">
+        <div className="hidden md:flex flex-col items-center opacity-12 mx-2 self-center">
           <div className="w-px h-32 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
         </div>
 
         {/* Right service — links to timeless */}
-        <div className="flex-1 flex justify-start pl-10 md:pl-16">
-          <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="group cursor-pointer max-w-[300px] text-left text-[#f5f0e8] transition-all duration-500 hover:scale-[1.02]">
+        <div className="flex-1 flex justify-center md:justify-start pl-0 md:pl-16">
+          <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="group cursor-pointer max-w-[300px] text-center md:text-left text-[#f5f0e8] transition-all duration-500 hover:scale-[1.02]">
             <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4">02</p>
             <h3 className="font-display text-2xl md:text-[34px] font-normal tracking-[0.02em] opacity-85 group-hover:opacity-100 leading-[1.2] transition-opacity duration-500">Video<br />para Marcas</h3>
             <p className="font-display text-sm md:text-base italic opacity-30 group-hover:opacity-50 mt-3 transition-opacity duration-500">Video cinematográfico para empresas.</p>
