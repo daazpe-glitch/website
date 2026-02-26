@@ -110,9 +110,9 @@ export default function Home() {
   /* ─── Créditos overlay variants ─── */
   const creditOverlay = (
     <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-6 md:px-20 lg:px-28">
-      <div className="flex flex-col md:flex-row items-start w-full max-w-4xl gap-6 md:gap-0">
+      <div className="credit-split w-full max-w-4xl">
       {/* Left — Clients */}
-      <div className="md:flex-1 md:flex md:justify-end md:pr-16 text-left md:text-right text-[#f5f0e8]">
+      <div className="split-left text-[#f5f0e8]">
         <div className="max-w-[260px]">
           <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Colaboraciones</p>
           <div className="space-y-2.5">
@@ -125,13 +125,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="hidden md:flex flex-col items-center opacity-12 mx-3 self-stretch justify-center">
-        <div className="w-px h-44 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
-      </div>
+      <div className="split-divider bg-[#f5f0e8]/12 md:opacity-12 md:mx-3"></div>
 
       {/* Right — Awards */}
-      <div className="md:flex-1 md:flex md:justify-start md:pl-16 text-left text-[#f5f0e8]">
+      <div className="split-right text-[#f5f0e8]">
         <div className="max-w-[340px]">
           <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Reconocimientos</p>
           <div className="space-y-4">
@@ -157,8 +154,8 @@ export default function Home() {
     <div className="absolute inset-0 flex items-center justify-center px-6 md:px-20">
       <div className="max-w-2xl w-full">
         <div className="w-full h-px bg-[#2a2520]/8 mb-8 md:mb-10" />
-        <div className="flex flex-col md:flex-row gap-8 md:gap-16 text-[#2a2520]">
-          <div className="flex-1 text-left">
+        <div className="contact-split text-[#2a2520]">
+          <div className="split-left">
             <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4 md:mb-6">Sobre</p>
             <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-2 md:mb-3">
               Soy Daniel. Hago documentales, video y experimento con IA.
@@ -167,10 +164,8 @@ export default function Home() {
               Nací en Hmo. Vivo en Guadalajara.
             </p>
           </div>
-          {/* Divider */}
-          <div className="hidden md:block w-px bg-[#2a2520]/8 self-stretch" />
-          <div className="md:hidden w-16 h-px bg-[#2a2520]/6" />
-          <div className="flex-1 text-left flex flex-col justify-center">
+          <div className="split-divider bg-[#2a2520]/8"></div>
+          <div className="split-right">
             <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4 md:mb-6">Contacto</p>
             <a href="mailto:daniel@timeless.mx" className="block font-display text-base md:text-xl opacity-55 hover:opacity-85 transition-opacity duration-300 mb-5 md:mb-6 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/30">
               daniel@timeless.mx
