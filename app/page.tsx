@@ -8,7 +8,7 @@ const sections = {
   home: {
     image: "/images/light-bokeh.jpg",
     overlay: (
-      <div className="absolute bottom-10 left-8 md:bottom-16 md:left-16 text-left text-[#f5f0e8]">
+      <div className="absolute bottom-10 right-8 md:bottom-16 md:right-16 text-right text-[#f5f0e8]">
         <p className="font-mono text-[10px] md:text-xs tracking-[5px] uppercase opacity-50 mb-4">
           Documentalista · Filmmaker
         </p>
