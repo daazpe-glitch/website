@@ -258,71 +258,15 @@ export default function Home() {
         {(["A", "B", "C", "D", "E"] as const).map((s) => (
           <button key={s} onClick={(e) => { e.stopPropagation(); setContactStyle(s); }}
             className={`font-mono text-[9px] tracking-[2px] uppercase px-3 py-1 border rounded-full transition-all cursor-pointer ${contactStyle === s ? "border-[#2a2520]/40 text-[#2a2520]/70 bg-[#2a2520]/5" : "border-[#2a2520]/10 text-[#2a2520]/25 hover:text-[#2a2520]/40"}`}>
-            {s === "A" ? "marco" : s === "B" ? "líneas" : s === "C" ? "split" : s === "D" ? "centro" : "postal"}
+            {s === "A" ? "split" : s === "B" ? "split·bold" : s === "C" ? "split·marco" : s === "D" ? "split·wide" : "split·card"}
           </button>
         ))}
       </div>
 
-      {/* A: Marco — thin border frame with generous padding */}
+      {/* A: Split — original mejorado, links más visibles */}
       {contactStyle === "A" && (
-        <div className="absolute inset-0 flex items-center justify-center px-8 md:px-16">
-          <div className="relative max-w-lg w-full">
-            {/* Decorative frame */}
-            <div className="absolute inset-0 border border-[#2a2520]/8" />
-            <div className="absolute inset-2 border border-[#2a2520]/5" />
-            <div className="px-12 py-14 md:px-16 md:py-20 text-center text-[#2a2520]">
-              <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-6">
-                Soy Daniel. Hago documentales, video y experimento con IA.
-              </p>
-              <p className="font-display text-sm italic opacity-30 mb-10">
-                Nací en Hmo. Vivo en Guadalajara.
-              </p>
-              <div className="w-12 h-px bg-[#2a2520]/10 mx-auto mb-10" />
-              <a href="mailto:hola@danielazpe.com" className="block font-display text-lg md:text-2xl tracking-[0.04em] opacity-60 hover:opacity-85 transition-opacity duration-300 mb-8">
-                hola@danielazpe.com
-              </a>
-              <div className="flex justify-center gap-8">
-                <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[4px] uppercase opacity-20 hover:opacity-50 transition-opacity">Instagram</a>
-                <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[4px] uppercase opacity-20 hover:opacity-50 transition-opacity">LinkedIn</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* B: Líneas — horizontal rules as structure */}
-      {contactStyle === "B" && (
-        <div className="absolute inset-0 flex items-center justify-center px-8 md:px-16">
-          <div className="max-w-md w-full text-[#2a2520]">
-            <div className="w-full h-px bg-[#2a2520]/12 mb-10" />
-            <div className="flex justify-between items-baseline mb-8">
-              <p className="font-mono text-[8px] tracking-[6px] uppercase opacity-25">Daniel Azpe</p>
-              <p className="font-mono text-[8px] tracking-[4px] uppercase opacity-15">GDL, MX</p>
-            </div>
-            <p className="font-display text-base md:text-lg leading-[1.9] opacity-55 mb-3">
-              Soy Daniel. Hago documentales, video y experimento con IA.
-            </p>
-            <p className="font-display text-base md:text-lg italic opacity-30 mb-8">
-              Nací en Hmo. Vivo en Guadalajara.
-            </p>
-            <div className="w-full h-px bg-[#2a2520]/8 mb-8" />
-            <a href="mailto:hola@danielazpe.com" className="block font-display text-xl md:text-2xl tracking-[0.02em] opacity-55 hover:opacity-80 transition-opacity duration-300 mb-6">
-              hola@danielazpe.com
-            </a>
-            <div className="flex gap-8 mb-8">
-              <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[3px] uppercase opacity-20 hover:opacity-50 transition-opacity">Instagram</a>
-              <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[3px] uppercase opacity-20 hover:opacity-50 transition-opacity">LinkedIn</a>
-            </div>
-            <div className="w-full h-px bg-[#2a2520]/12" />
-          </div>
-        </div>
-      )}
-
-      {/* C: Split — bio left, contact right, lines framing */}
-      {contactStyle === "C" && (
-        <div className="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+        <div className="absolute inset-8 md:inset-10 border border-[#2a2520]/8 flex items-center justify-center px-4 md:px-12">
           <div className="max-w-2xl w-full">
-            <div className="w-full h-px bg-[#2a2520]/10 mb-10" />
             <div className="flex gap-10 md:gap-16 text-[#2a2520]">
               <div className="flex-1 text-left">
                 <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-6">Sobre</p>
@@ -336,78 +280,152 @@ export default function Home() {
               <div className="w-px bg-[#2a2520]/8 self-stretch" />
               <div className="flex-1 text-left flex flex-col justify-center">
                 <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-6">Contacto</p>
-                <a href="mailto:hola@danielazpe.com" className="block font-display text-lg md:text-xl tracking-[0.02em] opacity-55 hover:opacity-80 transition-opacity duration-300 mb-5">
-                  hola@danielazpe.com
+                <a href="mailto:daniel@timeless.mx" className="block font-display text-lg md:text-xl tracking-[0.02em] opacity-60 hover:opacity-90 transition-opacity duration-300 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/30 mb-6">
+                  daniel@timeless.mx
                 </a>
-                <div className="flex gap-6">
-                  <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[3px] uppercase opacity-20 hover:opacity-50 transition-opacity">Instagram</a>
-                  <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[3px] uppercase opacity-20 hover:opacity-50 transition-opacity">LinkedIn</a>
+                <div className="flex gap-5">
+                  <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-35 hover:opacity-70 transition-all duration-300 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/25">Instagram ↗</a>
+                  <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-35 hover:opacity-70 transition-all duration-300 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/25">LinkedIn ↗</a>
                 </div>
               </div>
             </div>
-            <div className="w-full h-px bg-[#2a2520]/10 mt-10" />
           </div>
         </div>
       )}
 
-      {/* D: Centro — everything centered, clean hierarchy, lines above and below */}
+      {/* B: Split bold — bigger email, social with borders */}
+      {contactStyle === "B" && (
+        <div className="absolute inset-8 md:inset-10 border border-[#2a2520]/8 flex items-center justify-center px-4 md:px-12">
+          <div className="max-w-2xl w-full">
+            <div className="flex gap-10 md:gap-16 text-[#2a2520]">
+              <div className="flex-1 text-left">
+                <p className="font-mono text-[8px] tracking-[6px] uppercase opacity-25 mb-8">Sobre</p>
+                <p className="font-display text-base md:text-lg leading-[2] opacity-55 mb-3">
+                  Soy Daniel. Hago documentales, video y experimento con IA.
+                </p>
+                <p className="font-display text-base italic opacity-30">
+                  Nací en Hmo. Vivo en Guadalajara.
+                </p>
+              </div>
+              <div className="w-px bg-[#2a2520]/8 self-stretch" />
+              <div className="flex-1 text-left flex flex-col justify-center">
+                <p className="font-mono text-[8px] tracking-[6px] uppercase opacity-25 mb-8">Contacto</p>
+                <a href="mailto:daniel@timeless.mx" className="group block mb-8">
+                  <span className="font-display text-2xl md:text-3xl tracking-[0.01em] opacity-55 group-hover:opacity-85 transition-opacity duration-300">daniel@timeless.mx</span>
+                  <span className="block w-0 group-hover:w-full h-px bg-[#2a2520]/20 transition-all duration-500 mt-2" />
+                </a>
+                <div className="flex gap-4">
+                  <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-30 hover:opacity-65 transition-all duration-300 border border-[#2a2520]/10 hover:border-[#2a2520]/25 px-4 py-2 rounded-full">Instagram</a>
+                  <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-30 hover:opacity-65 transition-all duration-300 border border-[#2a2520]/10 hover:border-[#2a2520]/25 px-4 py-2 rounded-full">LinkedIn</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* C: Split marco — double border, lines between sections */}
+      {contactStyle === "C" && (
+        <div className="absolute inset-6 md:inset-8 border border-[#2a2520]/6">
+          <div className="absolute inset-2 border border-[#2a2520]/4 flex items-center justify-center px-6 md:px-14">
+            <div className="max-w-2xl w-full">
+              <div className="w-full h-px bg-[#2a2520]/6 mb-8" />
+              <div className="flex gap-10 md:gap-16 text-[#2a2520]">
+                <div className="flex-1 text-left">
+                  <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-6">Sobre</p>
+                  <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-3">
+                    Soy Daniel. Hago documentales, video y experimento con IA.
+                  </p>
+                  <p className="font-display text-sm italic opacity-30">
+                    Nací en Hmo. Vivo en Guadalajara.
+                  </p>
+                </div>
+                <div className="w-px bg-[#2a2520]/8 self-stretch" />
+                <div className="flex-1 text-left flex flex-col justify-center">
+                  <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-6">Contacto</p>
+                  <a href="mailto:daniel@timeless.mx" className="block font-display text-lg md:text-xl opacity-55 hover:opacity-85 transition-opacity duration-300 mb-6 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/30">
+                    daniel@timeless.mx
+                  </a>
+                  <div className="flex gap-5">
+                    <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-35 hover:opacity-65 transition-all duration-300 border-b border-[#2a2520]/10 hover:border-[#2a2520]/25 pb-0.5">Instagram</a>
+                    <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-35 hover:opacity-65 transition-all duration-300 border-b border-[#2a2520]/10 hover:border-[#2a2520]/25 pb-0.5">LinkedIn</a>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full h-px bg-[#2a2520]/6 mt-8" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* D: Split wide — full width, more breathing room, corner marks */}
       {contactStyle === "D" && (
-        <div className="absolute inset-0 flex items-center justify-center px-8">
-          <div className="max-w-sm text-center text-[#2a2520]">
-            <div className="flex items-center justify-center gap-4 mb-12">
-              <span className="w-16 h-px bg-[#2a2520]/10" />
-              <span className="font-mono text-[7px] tracking-[6px] uppercase opacity-15">Daniel Azpe</span>
-              <span className="w-16 h-px bg-[#2a2520]/10" />
-            </div>
-            <p className="font-display text-base md:text-lg leading-[2] opacity-50 mb-2">
-              Hago documentales, video
-            </p>
-            <p className="font-display text-base md:text-lg leading-[2] opacity-50 mb-6">
-              y experimento con IA.
-            </p>
-            <p className="font-display text-sm italic opacity-25 mb-12">
-              Nací en Hmo. Vivo en Guadalajara.
-            </p>
-            <a href="mailto:hola@danielazpe.com" className="inline-block font-display text-xl md:text-2xl tracking-[0.03em] opacity-60 hover:opacity-85 transition-opacity duration-300 mb-8">
-              hola@danielazpe.com
-            </a>
-            <div className="flex justify-center gap-3 mb-12">
-              <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[8px] tracking-[3px] uppercase opacity-20 hover:opacity-45 transition-opacity px-3 py-1.5 border border-[#2a2520]/6 rounded-full">Instagram</a>
-              <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[8px] tracking-[3px] uppercase opacity-20 hover:opacity-45 transition-opacity px-3 py-1.5 border border-[#2a2520]/6 rounded-full">LinkedIn</a>
-            </div>
-            <div className="flex items-center justify-center gap-4">
-              <span className="w-16 h-px bg-[#2a2520]/10" />
-              <span className="font-mono text-[7px] tracking-[4px] uppercase opacity-10">GDL, MX</span>
-              <span className="w-16 h-px bg-[#2a2520]/10" />
+        <div className="absolute inset-0 flex items-center justify-center px-8 md:px-16">
+          {/* Corner marks */}
+          <div className="absolute top-8 left-8 w-6 h-6 border-t border-l border-[#2a2520]/12" />
+          <div className="absolute top-8 right-8 w-6 h-6 border-t border-r border-[#2a2520]/12" />
+          <div className="absolute bottom-8 left-8 w-6 h-6 border-b border-l border-[#2a2520]/12" />
+          <div className="absolute bottom-8 right-8 w-6 h-6 border-b border-r border-[#2a2520]/12" />
+
+          <div className="max-w-3xl w-full">
+            <div className="flex gap-12 md:gap-20 text-[#2a2520] items-center">
+              <div className="flex-1 text-right">
+                <p className="font-display text-base md:text-lg leading-[2] opacity-50 mb-3">
+                  Soy Daniel. Hago documentales, video y experimento con IA.
+                </p>
+                <p className="font-display text-sm italic opacity-25">
+                  Nací en Hmo. Vivo en Guadalajara.
+                </p>
+              </div>
+              <div className="flex flex-col items-center gap-2 opacity-10">
+                <div className="w-px h-16 bg-[#2a2520]" />
+                <span className="font-mono text-[6px]">·</span>
+                <div className="w-px h-16 bg-[#2a2520]" />
+              </div>
+              <div className="flex-1 text-left">
+                <a href="mailto:daniel@timeless.mx" className="group block mb-6">
+                  <span className="font-display text-xl md:text-2xl opacity-55 group-hover:opacity-85 transition-opacity duration-300">daniel@timeless.mx</span>
+                  <span className="block w-0 group-hover:w-full h-px bg-[#2a2520]/15 transition-all duration-500 mt-1.5" />
+                </a>
+                <div className="flex gap-5">
+                  <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-30 hover:opacity-65 transition-all duration-300 flex items-center gap-1.5">Instagram <span className="text-[8px] opacity-60">↗</span></a>
+                  <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] tracking-[3px] uppercase opacity-30 hover:opacity-65 transition-all duration-300 flex items-center gap-1.5">LinkedIn <span className="text-[8px] opacity-60">↗</span></a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* E: Postal v2 — card with corner accents */}
+      {/* E: Split card — solid border, contact as cards/blocks */}
       {contactStyle === "E" && (
-        <div className="absolute inset-0 flex items-center justify-center px-6 md:px-12">
-          <div className="relative max-w-md w-full px-10 py-14 md:px-14 md:py-18 text-[#2a2520]">
-            {/* Corner accents */}
-            <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#2a2520]/15" />
-            <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-[#2a2520]/15" />
-            <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-[#2a2520]/15" />
-            <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[#2a2520]/15" />
-            
-            <div className="text-center">
-              <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-3">
-                Soy Daniel. Hago documentales, video y experimento con IA.
-              </p>
-              <p className="font-display text-sm italic opacity-30 mb-10">
-                Nací en Hmo. Vivo en Guadalajara.
-              </p>
-              <div className="w-8 h-px bg-[#2a2520]/10 mx-auto mb-10" />
-              <a href="mailto:hola@danielazpe.com" className="block font-display text-lg md:text-2xl tracking-[0.02em] opacity-55 hover:opacity-80 transition-opacity duration-300 mb-6">
-                hola@danielazpe.com
-              </a>
-              <div className="flex justify-center gap-6 mb-4">
-                <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[3px] uppercase opacity-20 hover:opacity-50 transition-opacity">Instagram</a>
-                <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[3px] uppercase opacity-20 hover:opacity-50 transition-opacity">LinkedIn</a>
+        <div className="absolute inset-8 md:inset-10 border border-[#2a2520]/8 flex items-center justify-center px-4 md:px-12">
+          <div className="max-w-2xl w-full text-[#2a2520]">
+            <div className="flex gap-8 md:gap-14 items-center">
+              <div className="flex-1 text-left">
+                <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-2">
+                  Soy Daniel. Hago documentales, video y experimento con IA.
+                </p>
+                <p className="font-display text-sm italic opacity-25">
+                  Nací en Hmo. Vivo en Guadalajara.
+                </p>
+              </div>
+              <div className="w-px bg-[#2a2520]/6 self-stretch" />
+              <div className="flex-1 flex flex-col gap-4">
+                <a href="mailto:daniel@timeless.mx" className="group block border border-[#2a2520]/8 hover:border-[#2a2520]/20 px-5 py-4 transition-all duration-300 rounded-sm">
+                  <p className="font-mono text-[7px] tracking-[4px] uppercase opacity-20 mb-1.5">Email</p>
+                  <p className="font-display text-base md:text-lg opacity-55 group-hover:opacity-80 transition-opacity">daniel@timeless.mx</p>
+                </a>
+                <div className="flex gap-4">
+                  <a href="https://www.instagram.com/daniel.azpe/" target="_blank" rel="noopener noreferrer" className="group flex-1 block border border-[#2a2520]/8 hover:border-[#2a2520]/20 px-5 py-3 transition-all duration-300 rounded-sm">
+                    <p className="font-mono text-[7px] tracking-[4px] uppercase opacity-20 mb-1">Social</p>
+                    <p className="font-display text-sm opacity-45 group-hover:opacity-75 transition-opacity">Instagram ↗</p>
+                  </a>
+                  <a href="https://www.linkedin.com/in/danielazpe" target="_blank" rel="noopener noreferrer" className="group flex-1 block border border-[#2a2520]/8 hover:border-[#2a2520]/20 px-5 py-3 transition-all duration-300 rounded-sm">
+                    <p className="font-mono text-[7px] tracking-[4px] uppercase opacity-20 mb-1">Profesional</p>
+                    <p className="font-display text-sm opacity-45 group-hover:opacity-75 transition-opacity">LinkedIn ↗</p>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
