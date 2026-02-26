@@ -317,32 +317,36 @@ export default function Home() {
           </div>
         )}
 
-        {/* G3: Cinematic split — centrado con gradient sutil, títulos más grandes, subtítulos itálica */}
+        {/* G3: Cinematic split — aligned, clickable, hover effects */}
         {trabajoStyle === "G3" && (
           <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/20 via-transparent to-black/30 px-12 md:px-24 lg:px-32">
-            {/* Left service */}
+            {/* Left service — links to proyectos */}
             <div className="flex-1 flex justify-end pr-10 md:pr-16">
-              <div className="max-w-[300px] text-right text-[#f5f0e8]">
+              <button onClick={(e) => { e.stopPropagation(); goTo("proyectos"); }} className="group cursor-pointer max-w-[300px] text-right text-[#f5f0e8] transition-all duration-500 hover:scale-[1.02]">
                 <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4">01</p>
-                <h3 className="font-display text-2xl md:text-[34px] font-normal tracking-[0.02em] opacity-90 leading-[1.2]">Documental<br />de Impacto</h3>
-                <p className="font-display text-sm md:text-base italic opacity-35 mt-3">Historias que necesitan ser contadas.</p>
-              </div>
+                <h3 className="font-display text-2xl md:text-[34px] font-normal tracking-[0.02em] opacity-85 group-hover:opacity-100 leading-[1.2] transition-opacity duration-500">Documental<br />de Impacto</h3>
+                <p className="font-display text-sm md:text-base italic opacity-30 group-hover:opacity-50 mt-3 transition-opacity duration-500">Historias que necesitan ser contadas.</p>
+                <div className="mt-5 flex items-center justify-end gap-2.5 opacity-0 group-hover:opacity-35 transition-all duration-500">
+                  <span className="font-mono text-[7px] tracking-[4px] uppercase">Ver proyectos</span>
+                  <span className="w-0 h-px bg-[#f5f0e8] group-hover:w-8 transition-all duration-500" />
+                </div>
+              </button>
             </div>
 
             {/* Center divider */}
-            <div className="flex flex-col items-center opacity-12 mx-2">
+            <div className="flex flex-col items-center opacity-12 mx-2 self-center">
               <div className="w-px h-32 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
             </div>
 
-            {/* Right service */}
+            {/* Right service — links to timeless */}
             <div className="flex-1 flex justify-start pl-10 md:pl-16">
-              <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="block group max-w-[300px] text-left text-[#f5f0e8]">
+              <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="group cursor-pointer max-w-[300px] text-left text-[#f5f0e8] transition-all duration-500 hover:scale-[1.02]">
                 <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4">02</p>
-                <h3 className="font-display text-2xl md:text-[34px] font-normal tracking-[0.02em] opacity-90 leading-[1.2]">Video<br />para Marcas</h3>
-                <p className="font-display text-sm md:text-base italic opacity-35 mt-3">Video cinematográfico para empresas.</p>
-                <div className="mt-5 flex items-center gap-2.5 opacity-15 group-hover:opacity-45 transition-all duration-600">
-                  <span className="font-mono text-[7px] tracking-[4px] uppercase">vía Timeless Studios</span>
-                  <span className="w-5 h-px bg-[#f5f0e8] group-hover:w-12 transition-all duration-500" />
+                <h3 className="font-display text-2xl md:text-[34px] font-normal tracking-[0.02em] opacity-85 group-hover:opacity-100 leading-[1.2] transition-opacity duration-500">Video<br />para Marcas</h3>
+                <p className="font-display text-sm md:text-base italic opacity-30 group-hover:opacity-50 mt-3 transition-opacity duration-500">Video cinematográfico para empresas.</p>
+                <div className="mt-5 flex items-center gap-2.5 opacity-0 group-hover:opacity-35 transition-all duration-500">
+                  <span className="font-mono text-[7px] tracking-[4px] uppercase">Timeless Studios</span>
+                  <span className="w-0 h-px bg-[#f5f0e8] group-hover:w-8 transition-all duration-500" />
                 </div>
               </a>
             </div>
