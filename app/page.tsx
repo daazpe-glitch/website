@@ -264,7 +264,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.15 }}
-                className="absolute inset-0"
+                className="absolute inset-0 z-[15] pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto"
               >
                 {sections[active].overlay}
               </motion.div>
