@@ -114,9 +114,13 @@ export default function Home() {
       <div className="flex-1 flex justify-end pr-10 md:pr-16">
         <div className="max-w-[260px] text-right text-[#f5f0e8]">
           <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Colaboraciones</p>
-          <p className="font-display text-sm md:text-[15px] opacity-45 leading-[2.2]">
-            IPADE<br />Universidad Panamericana<br />Tequila San Matías<br />De la Rosa<br />Blen<br />Kibox
-          </p>
+          <div className="space-y-2.5">
+            <a href="https://www.youtube.com/watch?v=4fGR4L4Ut00" target="_blank" rel="noopener noreferrer" className="block font-display text-sm md:text-[15px] opacity-55 hover:opacity-85 transition-all duration-300 underline decoration-[#f5f0e8]/15 underline-offset-4 hover:decoration-[#f5f0e8]/40">Apple ↗</a>
+            <p className="font-display text-sm md:text-[15px] opacity-45">IPADE</p>
+            <p className="font-display text-sm md:text-[15px] opacity-45">Tequila San Matías</p>
+            <p className="font-display text-sm md:text-[15px] opacity-45">The Macallan Group</p>
+            <p className="font-display text-sm md:text-[15px] opacity-45">Universidad Panamericana</p>
+          </div>
         </div>
       </div>
 
