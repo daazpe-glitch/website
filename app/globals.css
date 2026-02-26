@@ -66,9 +66,9 @@ body::before {
 /* Mobile responsive overrides */
 .credit-split,
 .contact-split {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem !important;
 }
 .credit-split .split-divider,
 .contact-split .split-divider {
