@@ -115,7 +115,7 @@ export default function Home() {
   const [direction, setDirection] = useState(0); // -1 left, 1 right
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
-  const [navStyle, setNavStyle] = useState<"dots" | "lines" | "numbers">("dots");
+  const [navStyle, setNavStyle] = useState<"thick" | "labeled" | "darkbar" | "inside">("thick");
 
 
   const bgColors = {
@@ -296,6 +296,20 @@ export default function Home() {
               </span>
             </button>
           )}
+          {/* 4: Inside image frame */}
+          {navStyle === "inside" && (
+            <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 z-20 flex gap-4 items-center">
+              {navItems.map((item) => (
+                <button key={item} onClick={() => goTo(item)}
+                  className="flex flex-col items-center gap-1.5 group cursor-pointer">
+                  <span className={`h-[3px] rounded-full transition-all duration-500 ${active === item ? "w-10 bg-[#f5f0e8]/80" : "w-5 bg-[#f5f0e8]/30 group-hover:w-7 group-hover:bg-[#f5f0e8]/50"}`} />
+                  <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[#f5f0e8]/70" : "text-[#f5f0e8]/0 group-hover:text-[#f5f0e8]/40"}`}>
+                    {item}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </motion.div>
 
@@ -313,49 +327,56 @@ export default function Home() {
           </a>
           {/* Style switcher (preview only) */}
           <div className="flex gap-2 ml-4">
-            {(["dots", "lines", "numbers"] as const).map((s) => (
+            {(["thick", "labeled", "darkbar", "inside"] as const).map((s) => (
               <button key={s} onClick={() => setNavStyle(s)}
                 className={`font-mono text-[8px] tracking-[2px] uppercase px-2 py-0.5 border transition-all cursor-pointer ${navStyle === s ? "border-[#3a352d]/40 text-[var(--nav-color)]/70" : "border-[#3a352d]/10 text-[var(--nav-color)]/25 hover:text-[var(--nav-color)]/40"}`}>
-                {s}
+                {s === "thick" ? "1·gruesas" : s === "labeled" ? "2·label" : s === "darkbar" ? "3·oscura" : "4·dentro"}
               </button>
             ))}
           </div>
         </div>
 
         {/* Section indicators */}
-        <div className="flex gap-4 ml-auto items-center">
-          {navStyle === "dots" && navItems.map((item) => (
-            <button key={item} onClick={() => goTo(item)}
-              className="flex items-center gap-2 group cursor-pointer">
-              <span className={`w-2.5 h-2.5 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/60 scale-110" : "bg-[#3a352d]/25 group-hover:bg-[#3a352d]/40"}`} />
-              <span className={`hidden md:inline font-mono text-[9px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/70" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/40"}`}>
-                {item}
-              </span>
-            </button>
-          ))}
-
-          {navStyle === "lines" && navItems.map((item) => (
+        {navStyle !== "inside" && (
+        <div className="flex gap-5 ml-auto items-center">
+          {/* 1: Thick + longer lines */}
+          {navStyle === "thick" && navItems.map((item) => (
             <button key={item} onClick={() => goTo(item)}
               className="flex flex-col items-center gap-1.5 group cursor-pointer">
-              <span className={`h-[2px] rounded-full transition-all duration-500 ${active === item ? "w-8 bg-[#3a352d]/60" : "w-4 bg-[#3a352d]/20 group-hover:w-6 group-hover:bg-[#3a352d]/35"}`} />
+              <span className={`h-[3px] rounded-full transition-all duration-500 ${active === item ? "w-10 bg-[#3a352d]/70" : "w-5 bg-[#3a352d]/30 group-hover:w-7 group-hover:bg-[#3a352d]/45"}`} />
               <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/60" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/35"}`}>
                 {item}
               </span>
             </button>
           ))}
 
-          {navStyle === "numbers" && navItems.map((item, i) => (
+          {/* 2: Active label always visible */}
+          {navStyle === "labeled" && navItems.map((item) => (
             <button key={item} onClick={() => goTo(item)}
-              className="group cursor-pointer flex items-center gap-1.5">
-              <span className={`font-mono text-sm tabular-nums transition-all duration-500 ${active === item ? "text-[var(--nav-color)]/70 scale-110" : "text-[var(--nav-color)]/20 group-hover:text-[var(--nav-color)]/40"}`}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/50" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/30"}`}>
+              className="flex flex-col items-center gap-1.5 group cursor-pointer">
+              <span className={`h-[3px] rounded-full transition-all duration-500 ${active === item ? "w-10 bg-[#3a352d]/70" : "w-5 bg-[#3a352d]/30 group-hover:w-7 group-hover:bg-[#3a352d]/45"}`} />
+              <span className={`hidden md:inline font-mono text-[9px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/70" : "text-[var(--nav-color)]/20 group-hover:text-[var(--nav-color)]/40"}`}>
                 {item}
               </span>
             </button>
           ))}
+
+          {/* 3: Dark backdrop bar */}
+          {navStyle === "darkbar" && (
+            <div className="flex gap-5 items-center bg-[#2a2520]/40 backdrop-blur-sm rounded-full px-5 py-2.5">
+              {navItems.map((item) => (
+                <button key={item} onClick={() => goTo(item)}
+                  className="flex flex-col items-center gap-1.5 group cursor-pointer">
+                  <span className={`h-[3px] rounded-full transition-all duration-500 ${active === item ? "w-10 bg-[#f5f0e8]/80" : "w-5 bg-[#f5f0e8]/25 group-hover:w-7 group-hover:bg-[#f5f0e8]/45"}`} />
+                  <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[#f5f0e8]/70" : "text-[#f5f0e8]/0 group-hover:text-[#f5f0e8]/35"}`}>
+                    {item}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
+        )}
       </motion.div>
     </main>
   );
