@@ -115,6 +115,7 @@ export default function Home() {
   const [direction, setDirection] = useState(0); // -1 left, 1 right
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
+  const [navStyle, setNavStyle] = useState<"dots" | "lines" | "numbers">("dots");
 
 
   const bgColors = {
@@ -274,6 +275,10 @@ export default function Home() {
             </motion.div>
           </AnimatePresence>
 
+          {/* Click anywhere to advance */}
+          <button onClick={goNext}
+            className="absolute inset-0 z-10 cursor-pointer" aria-label="Next section" />
+
           {/* ─── SIDE NAV ZONES ─── */}
           {!isFirst && (
             <button onClick={goPrev}
@@ -301,23 +306,51 @@ export default function Home() {
         transition={{ duration: 1, delay: 0.7 }}
         className="flex justify-between items-center px-6 md:px-10 py-3 md:py-4 flex-shrink-0"
       >
-        <div className="hidden md:flex gap-8">
+        <div className="hidden md:flex gap-8 items-center">
           <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer"
             className="font-mono text-[9px] tracking-[3px] uppercase text-[var(--nav-color)]/25 hover:text-[var(--nav-color)]/60 transition-colors cursor-pointer">
             Timeless Studios
           </a>
-          {["Proyectos", "Bodas"].map((t) => (
-            <span key={t} className="font-mono text-[9px] tracking-[3px] uppercase text-[var(--nav-color)]/25 cursor-pointer hover:text-[var(--nav-color)]/50 transition-colors">{t}</span>
-          ))}
+          {/* Style switcher (preview only) */}
+          <div className="flex gap-2 ml-4">
+            {(["dots", "lines", "numbers"] as const).map((s) => (
+              <button key={s} onClick={() => setNavStyle(s)}
+                className={`font-mono text-[8px] tracking-[2px] uppercase px-2 py-0.5 border transition-all cursor-pointer ${navStyle === s ? "border-[#3a352d]/40 text-[var(--nav-color)]/70" : "border-[#3a352d]/10 text-[var(--nav-color)]/25 hover:text-[var(--nav-color)]/40"}`}>
+                {s}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Section indicators with labels */}
+        {/* Section indicators */}
         <div className="flex gap-4 ml-auto items-center">
-          {navItems.map((item, i) => (
+          {navStyle === "dots" && navItems.map((item) => (
             <button key={item} onClick={() => goTo(item)}
-              className="flex items-center gap-1.5 group cursor-pointer">
-              <span className={`w-2 h-2 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/70 scale-125" : "bg-[#3a352d]/15 group-hover:bg-[#3a352d]/30"}`} />
+              className="flex items-center gap-2 group cursor-pointer">
+              <span className={`w-2.5 h-2.5 rounded-full transition-all duration-500 ${active === item ? "bg-[#3a352d]/60 scale-110" : "bg-[#3a352d]/25 group-hover:bg-[#3a352d]/40"}`} />
+              <span className={`hidden md:inline font-mono text-[9px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/70" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/40"}`}>
+                {item}
+              </span>
+            </button>
+          ))}
+
+          {navStyle === "lines" && navItems.map((item) => (
+            <button key={item} onClick={() => goTo(item)}
+              className="flex flex-col items-center gap-1.5 group cursor-pointer">
+              <span className={`h-[2px] rounded-full transition-all duration-500 ${active === item ? "w-8 bg-[#3a352d]/60" : "w-4 bg-[#3a352d]/20 group-hover:w-6 group-hover:bg-[#3a352d]/35"}`} />
               <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/60" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/35"}`}>
+                {item}
+              </span>
+            </button>
+          ))}
+
+          {navStyle === "numbers" && navItems.map((item, i) => (
+            <button key={item} onClick={() => goTo(item)}
+              className="group cursor-pointer flex items-center gap-1.5">
+              <span className={`font-mono text-sm tabular-nums transition-all duration-500 ${active === item ? "text-[var(--nav-color)]/70 scale-110" : "text-[var(--nav-color)]/20 group-hover:text-[var(--nav-color)]/40"}`}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className={`hidden md:inline font-mono text-[8px] tracking-[2px] uppercase transition-all duration-300 ${active === item ? "text-[var(--nav-color)]/50" : "text-[var(--nav-color)]/0 group-hover:text-[var(--nav-color)]/30"}`}>
                 {item}
               </span>
             </button>
