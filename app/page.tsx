@@ -88,7 +88,7 @@ export default function Home() {
     crema: { bg: "#f5f0ea", text: "#2a2520" },
   };
   const [entered, setEntered] = useState(false);
-  const [creditStyle, setCreditStyle] = useState<"A" | "B" | "C">("A");
+  const [creditStyle, setCreditStyle] = useState<"A" | "A2" | "A3" | "B" | "C">("A");
 
   const goTo = useCallback((target: SectionKey) => {
     const fromIdx = navItems.indexOf(active);
@@ -152,103 +152,139 @@ export default function Home() {
     <div className="absolute inset-0">
       {/* Style switcher */}
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-        {(["A", "B", "C"] as const).map((s) => (
+        {(["A", "A2", "A3"] as const).map((s) => (
           <button key={s} onClick={(e) => { e.stopPropagation(); setCreditStyle(s); }}
             className={`font-mono text-[9px] tracking-[2px] uppercase px-3 py-1 border rounded-full transition-all cursor-pointer ${creditStyle === s ? "border-white/50 text-white/80 bg-white/10" : "border-white/15 text-white/30 hover:text-white/50"}`}>
-            {s === "A" ? "split" : s === "B" ? "editorial" : "compact"}
+            {s === "A" ? "bold" : s === "A2" ? "clean" : "stars"}
           </button>
         ))}
       </div>
 
-      {/* A: Split — clients left, awards right */}
+      {/* A: Bold — awards prominent, Faraway Land as footnote */}
       {creditStyle === "A" && (
         <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-10 md:px-20 lg:px-28">
           {/* Left — Clients */}
           <div className="flex-1 flex justify-end pr-10 md:pr-16">
             <div className="max-w-[280px] text-right text-[#f5f0e8]">
-              <p className="font-mono text-[7px] tracking-[8px] uppercase opacity-20 mb-8">Clientes</p>
-              <div className="space-y-3">
+              <p className="font-display text-lg md:text-xl tracking-[0.08em] uppercase opacity-60 mb-8">Clientes</p>
+              <div className="space-y-4">
                 {["IPADE", "Universidad Panamericana", "Tequila San Matías", "De la Rosa", "Blen", "Kibox"].map((c) => (
-                  <p key={c} className="font-display text-sm md:text-base font-normal tracking-[0.04em] opacity-50">{c}</p>
+                  <p key={c} className="font-display text-base md:text-lg font-normal tracking-[0.03em] opacity-55">{c}</p>
                 ))}
               </div>
             </div>
           </div>
 
           {/* Divider */}
-          <div className="flex flex-col items-center opacity-10 mx-2 self-center">
-            <div className="w-px h-40 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
+          <div className="flex flex-col items-center opacity-12 mx-2 self-center">
+            <div className="w-px h-48 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
           </div>
 
-          {/* Right — Awards */}
+          {/* Right — Awards as main, project as footnote */}
+          <div className="flex-1 flex justify-start pl-10 md:pl-16">
+            <div className="max-w-[340px] text-left text-[#f5f0e8]">
+              <p className="font-display text-lg md:text-xl tracking-[0.08em] uppercase opacity-60 mb-8">Reconocimientos</p>
+              <div className="space-y-3">
+                <p className="font-display text-[15px] md:text-base opacity-70">Mejor Largometraje Nacional</p>
+                <p className="font-mono text-[8px] tracking-[2px] uppercase opacity-25 -mt-1">Festival de Cine de Madrid</p>
+                <p className="font-display text-[15px] md:text-base opacity-70 pt-1">Mejor Fotografía</p>
+                <p className="font-mono text-[8px] tracking-[2px] uppercase opacity-25 -mt-1">Festival de Cine de Madrid</p>
+                <p className="font-display text-[15px] md:text-base opacity-70 pt-1">Mejor Documental</p>
+                <p className="font-mono text-[8px] tracking-[2px] uppercase opacity-25 -mt-1">Festival Int. de Guayaquil</p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-[#f5f0e8]/8">
+                <p className="font-display text-sm italic opacity-35">Faraway Land — Largometraje Documental, 2018</p>
+                <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-15 mt-2">3 premios · 10 festivales · 5 países</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* A2: Clean — bigger titles, no labels, more breathing room */}
+      {creditStyle === "A2" && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-10 md:px-20 lg:px-28">
+          {/* Left — Clients */}
+          <div className="flex-1 flex justify-end pr-10 md:pr-16">
+            <div className="max-w-[260px] text-right text-[#f5f0e8]">
+              <p className="font-mono text-[8px] tracking-[6px] uppercase opacity-25 mb-10">Clientes</p>
+              {["IPADE", "U. Panamericana", "Tequila San Matías", "De la Rosa", "Blen", "Kibox"].map((c) => (
+                <p key={c} className="font-display text-sm md:text-[15px] font-normal tracking-[0.05em] opacity-50 mb-2.5">{c}</p>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="flex flex-col items-center opacity-10 mx-4 self-center">
+            <div className="w-px h-44 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
+          </div>
+
+          {/* Right — Awards clean */}
           <div className="flex-1 flex justify-start pl-10 md:pl-16">
             <div className="max-w-[320px] text-left text-[#f5f0e8]">
-              <p className="font-mono text-[7px] tracking-[8px] uppercase opacity-20 mb-6">Reconocimientos</p>
-              <h3 className="font-display text-lg md:text-2xl font-normal italic opacity-80 mb-1">Faraway Land</h3>
-              <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-20 mb-6">Largometraje Documental · 2018</p>
-              <div className="space-y-2.5">
-                <p className="font-display text-[13px] opacity-60"><span className="opacity-40">★</span> Mejor Largometraje Nacional — Madrid</p>
-                <p className="font-display text-[13px] opacity-60"><span className="opacity-40">★</span> Mejor Fotografía — Madrid</p>
-                <p className="font-display text-[13px] opacity-60"><span className="opacity-40">★</span> Mejor Documental — Guayaquil</p>
+              <p className="font-mono text-[8px] tracking-[6px] uppercase opacity-25 mb-10">Reconocimientos</p>
+              <div className="space-y-5">
+                <div>
+                  <p className="font-display text-base md:text-lg opacity-75">Mejor Largometraje Nacional</p>
+                  <p className="font-display text-xs italic opacity-30 mt-0.5">Madrid Pnr.</p>
+                </div>
+                <div>
+                  <p className="font-display text-base md:text-lg opacity-75">Mejor Fotografía</p>
+                  <p className="font-display text-xs italic opacity-30 mt-0.5">Madrid Pnr.</p>
+                </div>
+                <div>
+                  <p className="font-display text-base md:text-lg opacity-75">Mejor Documental</p>
+                  <p className="font-display text-xs italic opacity-30 mt-0.5">Guayaquil — Iguana Dorada</p>
+                </div>
               </div>
-              <div className="mt-6 flex items-center gap-3">
-                <span className="w-8 h-px bg-[#f5f0e8]/15" />
-                <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-20">10 festivales · 5 países</p>
+              <div className="mt-8 flex items-center gap-3 opacity-20">
+                <span className="w-10 h-px bg-[#f5f0e8]" />
+                <p className="font-mono text-[7px] tracking-[3px] uppercase">Faraway Land · 2018 · 10 festivales</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* B: Editorial — centered, stacked, credits-roll style */}
-      {creditStyle === "B" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/20 via-transparent to-black/25 px-8">
-          <div className="max-w-xl text-center text-[#f5f0e8]">
-            {/* Clients */}
-            <p className="font-mono text-[7px] tracking-[8px] uppercase opacity-15 mb-6">Han confiado en mi trabajo</p>
-            <p className="font-display text-sm md:text-base tracking-[0.08em] opacity-40 leading-loose">
-              IPADE · U. Panamericana · Tequila San Matías · De la Rosa · Blen · Kibox
-            </p>
-            
-            {/* Divider */}
-            <div className="w-12 h-px bg-[#f5f0e8]/10 mx-auto my-8" />
-            
-            {/* Featured work */}
-            <h3 className="font-display text-2xl md:text-4xl font-normal italic opacity-85 mb-2">Faraway Land</h3>
-            <p className="font-mono text-[8px] tracking-[4px] uppercase opacity-20 mb-6">Largometraje Documental · 2018</p>
-            
-            <div className="space-y-1.5 mb-6">
-              <p className="font-display text-[13px] opacity-55">Mejor Largometraje Nacional — Festival de Cine de Madrid</p>
-              <p className="font-display text-[13px] opacity-55">Mejor Fotografía — Festival de Cine de Madrid</p>
-              <p className="font-display text-[13px] opacity-55">Mejor Documental — Festival Int. de Guayaquil</p>
-            </div>
-            
-            <p className="font-mono text-[8px] tracking-[4px] uppercase opacity-15">3 premios · 10 festivales · 5 países</p>
-          </div>
-        </div>
-      )}
-
-      {/* C: Compact — minimal, just the highlights */}
-      {creditStyle === "C" && (
-        <div className="absolute inset-0 flex items-end justify-between bg-gradient-to-t from-black/40 via-transparent to-transparent px-10 md:px-16 pb-10 md:pb-16">
+      {/* A3: Stars — awards with star accents, more visual hierarchy */}
+      {creditStyle === "A3" && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-10 md:px-20 lg:px-28">
           {/* Left — Clients */}
-          <div className="text-left text-[#f5f0e8]">
-            <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4">Clientes</p>
-            <p className="font-display text-xs md:text-sm tracking-[0.03em] opacity-40 leading-loose">
-              IPADE · U. Panamericana<br />San Matías · De la Rosa<br />Blen · Kibox
-            </p>
+          <div className="flex-1 flex justify-end pr-10 md:pr-16">
+            <div className="max-w-[260px] text-right text-[#f5f0e8]">
+              <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Clientes</p>
+              <p className="font-display text-sm md:text-[15px] opacity-45 leading-[2.2]">
+                IPADE<br />Universidad Panamericana<br />Tequila San Matías<br />De la Rosa<br />Blen<br />Kibox
+              </p>
+            </div>
           </div>
-          
-          {/* Right — Awards */}
-          <div className="text-right text-[#f5f0e8] max-w-[300px]">
-            <h3 className="font-display text-xl md:text-2xl font-normal italic opacity-80 mb-1">Faraway Land</h3>
-            <p className="font-mono text-[7px] tracking-[3px] uppercase opacity-20 mb-4">2018</p>
-            <p className="font-display text-[12px] opacity-45 leading-relaxed">
-              Mejor Largometraje Nacional<br />
-              Mejor Fotografía<br />
-              Mejor Documental
-            </p>
-            <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-15 mt-4">10 festivales · 5 países</p>
+
+          {/* Divider */}
+          <div className="flex flex-col items-center opacity-12 mx-3 self-center">
+            <div className="w-px h-44 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
+          </div>
+
+          {/* Right — Awards with stars */}
+          <div className="flex-1 flex justify-start pl-10 md:pl-16">
+            <div className="max-w-[340px] text-left text-[#f5f0e8]">
+              <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Reconocimientos</p>
+              <div className="space-y-4">
+                {[
+                  { award: "Mejor Largometraje Nacional", fest: "Festival de Cine de Madrid" },
+                  { award: "Mejor Fotografía", fest: "Festival de Cine de Madrid" },
+                  { award: "Mejor Documental", fest: "Festival Int. de Guayaquil" },
+                ].map(({ award, fest }) => (
+                  <div key={award} className="flex items-start gap-3">
+                    <span className="font-display text-lg opacity-30 mt-0.5">✦</span>
+                    <div>
+                      <p className="font-display text-[15px] md:text-base opacity-75">{award}</p>
+                      <p className="font-mono text-[7px] tracking-[2px] uppercase opacity-25 mt-0.5">{fest}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="font-display text-xs italic opacity-25 mt-8">Faraway Land — Documental, 2018 · 10 festivales · 5 países</p>
+            </div>
           </div>
         </div>
       )}
