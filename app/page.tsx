@@ -37,17 +37,9 @@ const navItems: SectionKey[] = ["home", "trabajo", "créditos", "contacto"];
 
 export default function Home() {
   const [active, setActive] = useState<SectionKey>("home");
-  const [prevActive, setPrevActive] = useState<SectionKey>("home");
-  const [direction, setDirection] = useState(0); // -1 left, 1 right
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [bgTheme, setBgTheme] = useState<"cafe" | "blanco" | "crema">("crema");
+    const [menuOpen, setMenuOpen] = useState(false);
 
 
-  const bgColors = {
-    cafe: { bg: "#d4cdbf", text: "#3a352d" },
-    blanco: { bg: "#ffffff", text: "#1a1a1a" },
-    crema: { bg: "#f5f0ea", text: "#2a2520" },
-  };
   const [entered, setEntered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -60,8 +52,6 @@ export default function Home() {
   const goTo = useCallback((target: SectionKey) => {
     const fromIdx = navItems.indexOf(active);
     const toIdx = navItems.indexOf(target);
-    setDirection(toIdx > fromIdx ? 1 : -1);
-    setPrevActive(active);
     setActive(target);
   }, [active]);
 
@@ -240,7 +230,7 @@ export default function Home() {
   const isLast = currentIdx === navItems.length - 1;
 
   return (
-    <main className="h-screen w-screen overflow-hidden flex flex-col select-none transition-colors duration-500" style={{ backgroundColor: bgColors[bgTheme].bg, "--nav-color": bgColors[bgTheme].text } as React.CSSProperties}>
+    <main className="h-screen w-screen overflow-hidden flex flex-col select-none transition-colors duration-500" style={{ backgroundColor: "#f5f0ea", "--nav-color": "#2a2520" } as React.CSSProperties}>
 
 
       {/* Film grain */}
@@ -271,7 +261,7 @@ export default function Home() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 backdrop-blur-lg flex flex-col items-center justify-center gap-8" style={{ backgroundColor: bgColors[bgTheme].bg + "f8" }}>
+            className="fixed inset-0 z-40 backdrop-blur-lg flex flex-col items-center justify-center gap-8" style={{ backgroundColor: "#f5f0eaf8" }}>
             <button onClick={() => setMenuOpen(false)} className="absolute top-5 right-6 text-lg text-[var(--nav-color)] cursor-pointer">✕</button>
             {navItems.map((item, i) => (
               <motion.button key={item}
