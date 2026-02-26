@@ -327,9 +327,7 @@ export default function Home() {
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               />
               <span className={`font-mono text-[9px] tracking-[3px] uppercase transition-all duration-500 ${active === item ? "text-[var(--nav-color)]/65 translate-y-0" : "text-[var(--nav-color)]/20 group-hover:text-[var(--nav-color)]/40"}`}>
-                {active === item
-                  ? <><span className="opacity-40">{String(i + 1).padStart(2, "0")}</span><span className="mx-1 opacity-20">·</span>{item}</>
-                  : item}
+                {item}
               </span>
             </button>
           ))}
