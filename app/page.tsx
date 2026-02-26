@@ -23,19 +23,17 @@ const sections = {
     overlay: (
       <div className="absolute inset-0 flex items-center justify-end bg-gradient-to-l from-black/50 via-transparent to-transparent px-8 md:px-16">
         <div className="max-w-md text-right text-[#f5f0e8]">
-          <p className="font-mono text-[10px] tracking-[5px] uppercase opacity-40 mb-8">Lo que hago</p>
-          <div className="space-y-8">
+          <p className="font-mono text-[10px] tracking-[5px] uppercase opacity-40 mb-10">Lo que hago</p>
+          <div className="space-y-10">
             <div>
-              <h3 className="font-serif text-2xl md:text-3xl font-light">Cine & Documental</h3>
-              <p className="font-script text-base md:text-lg opacity-50 mt-1">Tu historia merece verse como película.</p>
+              <h3 className="font-serif text-2xl md:text-3xl font-light">Documental de impacto</h3>
+              <p className="font-script text-base md:text-lg opacity-50 mt-2">Historias que necesitan ser contadas.</p>
             </div>
             <div>
-              <h3 className="font-serif text-2xl md:text-3xl font-light">Creatividad + Tecnología</h3>
-              <p className="font-script text-base md:text-lg opacity-50 mt-1">El futuro de crear ya llegó.</p>
-            </div>
-            <div>
-              <h3 className="font-serif text-2xl md:text-3xl font-light opacity-50">Productos para Creativos</h3>
-              <p className="font-script text-base md:text-lg opacity-30 mt-1">Próximamente...</p>
+              <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="group">
+                <h3 className="font-serif text-2xl md:text-3xl font-light inline-flex items-center gap-2">Video para marcas <span className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300">&rarr;</span></h3>
+              </a>
+              <p className="font-script text-base md:text-lg opacity-50 mt-2">Video cinematográfico para empresas.</p>
             </div>
           </div>
         </div>
