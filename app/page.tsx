@@ -22,24 +22,9 @@ const sections = {
     image: "/images/golden-grain.jpg",
     overlay: null
   },
-  "sobre mí": {
-    image: "/images/shadow-blinds.jpg",
-    overlay: (
-      <div className="absolute inset-0 flex items-center justify-center px-8">
-        <div className="max-w-lg text-center text-[#f5f0e8]">
-          <blockquote className="font-script text-3xl md:text-4xl lg:text-5xl leading-[1.35] opacity-90">
-            Creo para que algo quede.<br />Para que algo cambie.
-          </blockquote>
-          <div className="mt-10 flex items-center justify-center gap-3 opacity-40">
-            <div className="w-8 h-px bg-[#f5f0e8]" />
-            <p className="font-mono text-[10px] tracking-[4px] uppercase">
-              Guadalajara, MX
-            </p>
-            <div className="w-8 h-px bg-[#f5f0e8]" />
-          </div>
-        </div>
-      </div>
-    ),
+  "créditos": {
+    image: "/images/creditos.jpg",
+    overlay: null,
   },
   proyectos: {
     image: "/images/motion-blur.jpg",
@@ -87,7 +72,7 @@ const sections = {
 };
 
 type SectionKey = keyof typeof sections;
-const navItems: SectionKey[] = ["home", "trabajo", "sobre mí", "proyectos", "contacto"];
+const navItems: SectionKey[] = ["home", "trabajo", "créditos", "proyectos", "contacto"];
 
 export default function Home() {
   const [active, setActive] = useState<SectionKey>("home");
@@ -103,6 +88,7 @@ export default function Home() {
     crema: { bg: "#f5f0ea", text: "#2a2520" },
   };
   const [entered, setEntered] = useState(false);
+  const [creditStyle, setCreditStyle] = useState<"A" | "B" | "C">("A");
 
   const goTo = useCallback((target: SectionKey) => {
     const fromIdx = navItems.indexOf(active);
@@ -161,7 +147,115 @@ export default function Home() {
     return () => { window.removeEventListener("touchstart", onStart); window.removeEventListener("touchend", onEnd); };
   }, [goNext, goPrev]);
 
-  /* ─── Trabajo overlay ─── */
+  /* ─── Créditos overlay variants ─── */
+  const creditOverlay = (
+    <div className="absolute inset-0">
+      {/* Style switcher */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+        {(["A", "B", "C"] as const).map((s) => (
+          <button key={s} onClick={(e) => { e.stopPropagation(); setCreditStyle(s); }}
+            className={`font-mono text-[9px] tracking-[2px] uppercase px-3 py-1 border rounded-full transition-all cursor-pointer ${creditStyle === s ? "border-white/50 text-white/80 bg-white/10" : "border-white/15 text-white/30 hover:text-white/50"}`}>
+            {s === "A" ? "split" : s === "B" ? "editorial" : "compact"}
+          </button>
+        ))}
+      </div>
+
+      {/* A: Split — clients left, awards right */}
+      {creditStyle === "A" && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-10 md:px-20 lg:px-28">
+          {/* Left — Clients */}
+          <div className="flex-1 flex justify-end pr-10 md:pr-16">
+            <div className="max-w-[280px] text-right text-[#f5f0e8]">
+              <p className="font-mono text-[7px] tracking-[8px] uppercase opacity-20 mb-8">Clientes</p>
+              <div className="space-y-3">
+                {["IPADE", "Universidad Panamericana", "Tequila San Matías", "De la Rosa", "Blen", "Kibox"].map((c) => (
+                  <p key={c} className="font-display text-sm md:text-base font-normal tracking-[0.04em] opacity-50">{c}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="flex flex-col items-center opacity-10 mx-2 self-center">
+            <div className="w-px h-40 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
+          </div>
+
+          {/* Right — Awards */}
+          <div className="flex-1 flex justify-start pl-10 md:pl-16">
+            <div className="max-w-[320px] text-left text-[#f5f0e8]">
+              <p className="font-mono text-[7px] tracking-[8px] uppercase opacity-20 mb-6">Reconocimientos</p>
+              <h3 className="font-display text-lg md:text-2xl font-normal italic opacity-80 mb-1">Faraway Land</h3>
+              <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-20 mb-6">Largometraje Documental · 2018</p>
+              <div className="space-y-2.5">
+                <p className="font-display text-[13px] opacity-60"><span className="opacity-40">★</span> Mejor Largometraje Nacional — Madrid</p>
+                <p className="font-display text-[13px] opacity-60"><span className="opacity-40">★</span> Mejor Fotografía — Madrid</p>
+                <p className="font-display text-[13px] opacity-60"><span className="opacity-40">★</span> Mejor Documental — Guayaquil</p>
+              </div>
+              <div className="mt-6 flex items-center gap-3">
+                <span className="w-8 h-px bg-[#f5f0e8]/15" />
+                <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-20">10 festivales · 5 países</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* B: Editorial — centered, stacked, credits-roll style */}
+      {creditStyle === "B" && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/20 via-transparent to-black/25 px-8">
+          <div className="max-w-xl text-center text-[#f5f0e8]">
+            {/* Clients */}
+            <p className="font-mono text-[7px] tracking-[8px] uppercase opacity-15 mb-6">Han confiado en mi trabajo</p>
+            <p className="font-display text-sm md:text-base tracking-[0.08em] opacity-40 leading-loose">
+              IPADE · U. Panamericana · Tequila San Matías · De la Rosa · Blen · Kibox
+            </p>
+            
+            {/* Divider */}
+            <div className="w-12 h-px bg-[#f5f0e8]/10 mx-auto my-8" />
+            
+            {/* Featured work */}
+            <h3 className="font-display text-2xl md:text-4xl font-normal italic opacity-85 mb-2">Faraway Land</h3>
+            <p className="font-mono text-[8px] tracking-[4px] uppercase opacity-20 mb-6">Largometraje Documental · 2018</p>
+            
+            <div className="space-y-1.5 mb-6">
+              <p className="font-display text-[13px] opacity-55">Mejor Largometraje Nacional — Festival de Cine de Madrid</p>
+              <p className="font-display text-[13px] opacity-55">Mejor Fotografía — Festival de Cine de Madrid</p>
+              <p className="font-display text-[13px] opacity-55">Mejor Documental — Festival Int. de Guayaquil</p>
+            </div>
+            
+            <p className="font-mono text-[8px] tracking-[4px] uppercase opacity-15">3 premios · 10 festivales · 5 países</p>
+          </div>
+        </div>
+      )}
+
+      {/* C: Compact — minimal, just the highlights */}
+      {creditStyle === "C" && (
+        <div className="absolute inset-0 flex items-end justify-between bg-gradient-to-t from-black/40 via-transparent to-transparent px-10 md:px-16 pb-10 md:pb-16">
+          {/* Left — Clients */}
+          <div className="text-left text-[#f5f0e8]">
+            <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4">Clientes</p>
+            <p className="font-display text-xs md:text-sm tracking-[0.03em] opacity-40 leading-loose">
+              IPADE · U. Panamericana<br />San Matías · De la Rosa<br />Blen · Kibox
+            </p>
+          </div>
+          
+          {/* Right — Awards */}
+          <div className="text-right text-[#f5f0e8] max-w-[300px]">
+            <h3 className="font-display text-xl md:text-2xl font-normal italic opacity-80 mb-1">Faraway Land</h3>
+            <p className="font-mono text-[7px] tracking-[3px] uppercase opacity-20 mb-4">2018</p>
+            <p className="font-display text-[12px] opacity-45 leading-relaxed">
+              Mejor Largometraje Nacional<br />
+              Mejor Fotografía<br />
+              Mejor Documental
+            </p>
+            <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-15 mt-4">10 festivales · 5 países</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+    /* ─── Trabajo overlay ─── */
   const trabajoOverlay = (
       <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/20 via-transparent to-black/30 px-12 md:px-24 lg:px-32">
         {/* Left service — links to proyectos */}
@@ -278,7 +372,7 @@ export default function Home() {
                 transition={{ duration: 0.4, delay: 0.15 }}
                 className="absolute inset-0 z-[15] pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto"
               >
-                {active === "trabajo" ? trabajoOverlay : sections[active].overlay}
+                {active === "trabajo" ? trabajoOverlay : active === "créditos" ? creditOverlay : sections[active].overlay}
               </motion.div>
             </motion.div>
           </AnimatePresence>
