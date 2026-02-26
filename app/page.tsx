@@ -109,11 +109,11 @@ export default function Home() {
 
   /* ─── Créditos overlay variants ─── */
   const creditOverlay = (
-    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-10 md:px-20 lg:px-28">
-      <div className="flex items-start w-full max-w-4xl">
+    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-6 md:px-20 lg:px-28">
+      <div className="flex flex-col md:flex-row items-start w-full max-w-4xl gap-6 md:gap-0">
       {/* Left — Clients */}
-      <div className="flex-1 flex justify-end pr-10 md:pr-16">
-        <div className="max-w-[260px] text-right text-[#f5f0e8]">
+      <div className="md:flex-1 md:flex md:justify-end md:pr-16 text-left md:text-right text-[#f5f0e8]">
+        <div className="max-w-[260px]">
           <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Colaboraciones</p>
           <div className="space-y-2.5">
             <a href="https://www.youtube.com/watch?v=4fGR4L4Ut00" target="_blank" rel="noopener noreferrer" className="block font-display text-sm md:text-[15px] opacity-55 hover:opacity-85 transition-all duration-300 underline decoration-[#f5f0e8]/15 underline-offset-4 hover:decoration-[#f5f0e8]/40">Apple ↗</a>
@@ -126,13 +126,13 @@ export default function Home() {
       </div>
 
       {/* Divider */}
-      <div className="flex flex-col items-center opacity-12 mx-3 self-stretch justify-center">
+      <div className="hidden md:flex flex-col items-center opacity-12 mx-3 self-stretch justify-center">
         <div className="w-px h-44 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
       </div>
 
       {/* Right — Awards */}
-      <div className="flex-1 flex justify-start pl-10 md:pl-16">
-        <div className="max-w-[340px] text-left text-[#f5f0e8]">
+      <div className="md:flex-1 md:flex md:justify-start md:pl-16 text-left text-[#f5f0e8]">
+        <div className="max-w-[340px]">
           <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Reconocimientos</p>
           <div className="space-y-4">
             {[
