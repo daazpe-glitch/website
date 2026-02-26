@@ -110,6 +110,7 @@ export default function Home() {
   /* ─── Créditos overlay variants ─── */
   const creditOverlay = (
     <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-10 md:px-20 lg:px-28">
+      <div className="flex items-start w-full max-w-4xl">
       {/* Left — Clients */}
       <div className="flex-1 flex justify-end pr-10 md:pr-16">
         <div className="max-w-[260px] text-right text-[#f5f0e8]">
@@ -125,7 +126,7 @@ export default function Home() {
       </div>
 
       {/* Divider */}
-      <div className="flex flex-col items-center opacity-12 mx-3 self-center">
+      <div className="flex flex-col items-center opacity-12 mx-3 self-stretch justify-center">
         <div className="w-px h-44 bg-gradient-to-b from-transparent via-[#f5f0e8] to-transparent" />
       </div>
 
