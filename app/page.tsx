@@ -103,7 +103,7 @@ export default function Home() {
     crema: { bg: "#f5f0ea", text: "#2a2520" },
   };
   const [entered, setEntered] = useState(false);
-  const [trabajoStyle, setTrabajoStyle] = useState<"A" | "B" | "C" | "D">("A");
+  const [trabajoStyle, setTrabajoStyle] = useState<"A" | "B" | "C" | "D" | "E" | "F">("C");
 
   const goTo = useCallback((target: SectionKey) => {
     const fromIdx = navItems.indexOf(active);
@@ -167,10 +167,10 @@ export default function Home() {
       <div className="absolute inset-0">
         {/* Style switcher */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-          {(["A", "B", "C", "D"] as const).map((s) => (
+          {(["C", "E", "F"] as const).map((s) => (
             <button key={s} onClick={(e) => { e.stopPropagation(); setTrabajoStyle(s); }}
               className={`font-mono text-[9px] tracking-[2px] uppercase px-3 py-1 border rounded-full transition-all cursor-pointer ${trabajoStyle === s ? "border-white/50 text-white/80 bg-white/10" : "border-white/15 text-white/30 hover:text-white/50"}`}>
-              {s === "A" ? "actual" : s === "B" ? "suave" : s === "C" ? "didone" : "minimal"}
+              {s === "C" ? "elegante" : s === "E" ? "compacto" : "créditos"}
             </button>
           ))}
         </div>
@@ -219,27 +219,65 @@ export default function Home() {
           </div>
         )}
 
-        {/* C: Didone — Playfair Display, títulos grandes, editorial */}
+        {/* C1: Didone — Medium, elegant */}
         {trabajoStyle === "C" && (
-          <div className="absolute inset-0 flex items-center justify-end px-8 md:px-20">
-            <div className="max-w-xl text-right text-[#f5f0e8]">
-              <p className="font-mono text-[9px] tracking-[10px] uppercase opacity-20 mb-16">Servicios</p>
-              <div className="space-y-16">
+          <div className="absolute inset-0 flex items-end justify-end px-8 md:px-16 pb-12 md:pb-20">
+            <div className="max-w-md text-right text-[#f5f0e8]">
+              <p className="font-mono text-[8px] tracking-[8px] uppercase opacity-20 mb-10">Servicios</p>
+              <div className="space-y-10">
                 <div>
-                  <h3 className="font-display text-3xl md:text-5xl lg:text-6xl font-normal tracking-[0.15em] uppercase opacity-85">Documental</h3>
-                  <h3 className="font-display text-3xl md:text-5xl lg:text-6xl font-normal italic opacity-60 -mt-1">de impacto</h3>
-                  <div className="flex items-center justify-end gap-3 mt-4">
-                    <p className="font-mono text-[9px] tracking-[4px] uppercase opacity-25">Historias que necesitan ser contadas</p>
-                    <span className="w-12 h-px bg-[#f5f0e8]/20" />
+                  <h3 className="font-display text-xl md:text-3xl font-normal tracking-[0.12em] uppercase opacity-85">Documental</h3>
+                  <h3 className="font-display text-xl md:text-3xl font-normal italic opacity-55 -mt-0.5">de impacto</h3>
+                  <p className="font-mono text-[8px] tracking-[4px] uppercase opacity-20 mt-3">Historias que necesitan ser contadas</p>
+                </div>
+                <div className="w-10 h-px bg-[#f5f0e8]/10 ml-auto" />
+                <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="block group">
+                  <h3 className="font-display text-xl md:text-3xl font-normal tracking-[0.12em] uppercase opacity-85">Video</h3>
+                  <h3 className="font-display text-xl md:text-3xl font-normal italic opacity-55 -mt-0.5">para marcas</h3>
+                  <p className="font-mono text-[8px] tracking-[4px] uppercase opacity-15 group-hover:opacity-40 mt-3 transition-opacity duration-500">vía Timeless Studios &rarr;</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* C2: Didone — Compact, right-center, single line titles */}
+        {trabajoStyle === "E" && (
+          <div className="absolute inset-0 flex items-center justify-end px-8 md:px-16">
+            <div className="max-w-sm text-right text-[#f5f0e8]">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="font-display text-lg md:text-2xl font-normal tracking-[0.1em] uppercase opacity-80">Documental de impacto</h3>
+                  <div className="flex items-center justify-end gap-2 mt-2">
+                    <span className="w-6 h-px bg-[#f5f0e8]/15" />
+                    <p className="font-display text-sm italic opacity-35">Historias que necesitan ser contadas.</p>
                   </div>
                 </div>
                 <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="block group">
-                  <h3 className="font-display text-3xl md:text-5xl lg:text-6xl font-normal tracking-[0.15em] uppercase opacity-85">Video</h3>
-                  <h3 className="font-display text-3xl md:text-5xl lg:text-6xl font-normal italic opacity-60 -mt-1">para marcas</h3>
-                  <div className="flex items-center justify-end gap-3 mt-4">
-                    <p className="font-mono text-[9px] tracking-[4px] uppercase opacity-20 group-hover:opacity-45 transition-opacity duration-500">vía Timeless Studios &rarr;</p>
-                    <span className="w-12 h-px bg-[#f5f0e8]/20" />
+                  <h3 className="font-display text-lg md:text-2xl font-normal tracking-[0.1em] uppercase opacity-80">Video para marcas</h3>
+                  <div className="flex items-center justify-end gap-2 mt-2">
+                    <span className="w-6 h-px bg-[#f5f0e8]/15" />
+                    <p className="font-display text-sm italic opacity-30 group-hover:opacity-50 transition-opacity duration-500">vía Timeless Studios &rarr;</p>
                   </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* C3: Didone — Bottom left, film credits style */}
+        {trabajoStyle === "F" && (
+          <div className="absolute inset-0 flex items-end px-8 md:px-16 pb-10 md:pb-16">
+            <div className="max-w-md text-left text-[#f5f0e8]">
+              <p className="font-mono text-[8px] tracking-[10px] uppercase opacity-15 mb-8">Servicios</p>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-display text-lg md:text-2xl font-normal tracking-[0.08em] opacity-80">Documental de Impacto</h3>
+                  <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-20 mt-1.5">Historias que necesitan ser contadas</p>
+                </div>
+                <a href="https://timeless.mx" target="_blank" rel="noopener noreferrer" className="block group">
+                  <h3 className="font-display text-lg md:text-2xl font-normal tracking-[0.08em] opacity-80">Video para Marcas</h3>
+                  <p className="font-mono text-[8px] tracking-[3px] uppercase opacity-15 group-hover:opacity-35 mt-1.5 transition-opacity duration-500">vía Timeless Studios &rarr;</p>
                 </a>
               </div>
             </div>
