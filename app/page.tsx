@@ -28,35 +28,36 @@ const sections = {
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-black/30 to-transparent px-8 md:px-16 pb-8 md:pb-12 overflow-y-auto">
         <div className="text-[#f5f0e8] max-w-4xl">
           <p className="font-mono text-[10px] tracking-[5px] uppercase opacity-40 mb-6">Lo que hago</p>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="border-l border-white/20 pl-4">
               <h3 className="font-serif text-xl md:text-2xl font-light mb-1">Cine & Documental</h3>
-              <p className="font-script text-sm opacity-50">Tu historia merece verse como película.</p>
+              <p className="font-script text-sm opacity-50">Historias que merecen ser contadas con la imagen que merecen. Documental, cortometraje, video para marcas.</p>
             </div>
             <div className="border-l border-white/20 pl-4">
               <h3 className="font-serif text-xl md:text-2xl font-light mb-1">Creatividad + Tecnología</h3>
-              <p className="font-script text-sm opacity-50">El futuro de crear ya llegó.</p>
+              <p className="font-script text-sm opacity-50">Uso inteligencia artificial para crear lo que antes no era posible. Pinturas que cobran vida, nuevos formatos, herramientas para creativos.</p>
             </div>
             <div className="border-l border-white/20 pl-4">
               <h3 className="font-serif text-xl md:text-2xl font-light mb-1">Productos Digitales</h3>
-              <p className="font-script text-sm opacity-50">Herramientas que cambian cómo creamos.</p>
+              <p className="font-script text-sm opacity-50">Herramientas y recursos para creativos. Pronto.</p>
             </div>
           </div>
+
           <div className="border-t border-white/15 pt-6 mb-6">
             <h3 className="font-serif text-2xl md:text-3xl font-light mb-2">Faraway Land</h3>
-            <p className="font-script text-base opacity-50 mb-3">Un documental que cruzó fronteras.</p>
-            <div className="font-mono text-[9px] tracking-[2px] uppercase opacity-40 flex flex-wrap gap-x-4 gap-y-1">
-              <span>3 premios internacionales</span>
-              <span className="opacity-30">·</span>
-              <span>10 festivales</span>
-              <span className="opacity-30">·</span>
-              <span>5 países</span>
+            <p className="font-script text-base opacity-50 mb-3">Largometraje documental que recorrió 10 festivales en 5 países.</p>
+            <div className="font-mono text-[9px] tracking-[2px] uppercase opacity-60 flex flex-col md:flex-row flex-wrap gap-x-4 gap-y-1">
+              <span>🏆 Mejor Largometraje — Festival de Cine de Madrid</span>
+              <span>🏆 Mejor Fotografía — Festival de Cine de Madrid</span>
+              <span>🏆 Mejor Documental — Festival Internacional de Guayaquil</span>
             </div>
           </div>
+
           <div className="border-t border-white/15 pt-4">
             <p className="font-mono text-[9px] tracking-[3px] uppercase opacity-30 mb-3">Clientes</p>
             <div className="flex flex-wrap gap-x-6 gap-y-2">
-              {["IPADE", "Universidad Panamericana", "Tequila San Matías", "De la Rosa", "Blen", "Kibox"].map((c) => (
+              {["IPADE", "U. Panamericana", "Tequila San Matías", "De la Rosa", "Blen", "Kibox"].map((c) => (
                 <span key={c} className="font-serif text-sm opacity-40">{c}</span>
               ))}
             </div>
@@ -71,20 +72,23 @@ const sections = {
       <div className="absolute inset-0 flex items-center bg-gradient-to-r from-black/50 via-black/20 to-transparent px-8 md:px-16">
         <div className="max-w-xl text-[#f5f0e8]">
           <p className="font-mono text-[10px] tracking-[5px] uppercase opacity-40 mb-6">Sobre mí</p>
+          
           <p className="font-serif text-lg md:text-xl leading-[1.7] mb-5 opacity-90">
-            Soy Daniel. Hago documentales que cuentan lo que importa. 
-            Creo video que se siente como cine. Construyo herramientas 
-            con inteligencia artificial.
+            Soy Daniel.
           </p>
+          
           <p className="font-serif text-lg md:text-xl leading-[1.7] mb-5 opacity-90">
-            Con <em className="font-script not-italic">Faraway Land</em> gané 3 premios internacionales 
-            y mostré en 10 festivales de 5 países. He trabajado con marcas 
-            como IPADE, Universidad Panamericana, Tequila San Matías y más.
+            Hago documentales que cuentan lo que importa. Creo video que se siente como cine. Construyo herramientas con inteligencia artificial.
           </p>
+          
+          <p className="font-serif text-lg md:text-xl leading-[1.7] mb-5 opacity-90">
+            Mi documental <em className="font-script not-italic">Faraway Land</em> ganó 3 premios internacionales y recorrió 10 festivales en 5 países. He trabajado con IPADE, Tequila San Matías, De la Rosa y Universidad Panamericana.
+          </p>
+          
           <p className="font-serif text-lg md:text-xl leading-[1.7] mb-6 opacity-90">
-            Mi filosofía es simple: hacer cosas que importen. 
-            Que queden. Que cambien algo en quien las ve.
+            Creo en que lo más importante es hacer cosas que importen — con el nivel de detalle y belleza que merecen.
           </p>
+          
           <div className="flex items-center gap-3 opacity-40 mt-8">
             <div className="w-8 h-px bg-[#f5f0e8]" />
             <p className="font-mono text-[10px] tracking-[4px] uppercase">Guadalajara, MX</p>
