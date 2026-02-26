@@ -113,7 +113,7 @@ export default function Home() {
       {/* Left — Clients */}
       <div className="flex-1 flex justify-end pr-10 md:pr-16">
         <div className="max-w-[260px] text-right text-[#f5f0e8]">
-          <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Clientes</p>
+          <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Colaboraciones</p>
           <p className="font-display text-sm md:text-[15px] opacity-45 leading-[2.2]">
             IPADE<br />Universidad Panamericana<br />Tequila San Matías<br />De la Rosa<br />Blen<br />Kibox
           </p>
