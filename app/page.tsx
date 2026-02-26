@@ -49,6 +49,13 @@ export default function Home() {
     crema: { bg: "#f5f0ea", text: "#2a2520" },
   };
   const [entered, setEntered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
   
   const goTo = useCallback((target: SectionKey) => {
     const fromIdx = navItems.indexOf(active);
@@ -110,40 +117,46 @@ export default function Home() {
   /* ─── Créditos overlay variants ─── */
   const creditOverlay = (
     <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/15 via-transparent to-black/25 px-6 md:px-20 lg:px-28">
-      <div className="credit-split w-full max-w-4xl">
-      {/* Left — Clients */}
-      <div className="split-left text-[#f5f0e8]">
-        <div className="max-w-[260px]">
-          <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Colaboraciones</p>
-          <div className="space-y-2.5">
-            <a href="https://www.youtube.com/watch?v=4fGR4L4Ut00" target="_blank" rel="noopener noreferrer" className="block font-display text-sm md:text-[15px] opacity-55 hover:opacity-85 transition-all duration-300 underline decoration-[#f5f0e8]/15 underline-offset-4 hover:decoration-[#f5f0e8]/40">Apple</a>
-            <p className="font-display text-sm md:text-[15px] opacity-45">IPADE</p>
-            <p className="font-display text-sm md:text-[15px] opacity-45">Tequila San Matías</p>
-            <p className="font-display text-sm md:text-[15px] opacity-45">The Macallan Group</p>
-            <p className="font-display text-sm md:text-[15px] opacity-45">Universidad Panamericana</p>
+      <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "flex-start", width: "100%", maxWidth: "56rem", gap: isMobile ? "1.5rem" : "0" }}>
+        {/* Left — Clients */}
+        <div style={{ flex: isMobile ? "none" : 1, display: isMobile ? "block" : "flex", justifyContent: "flex-end", paddingRight: isMobile ? 0 : "4rem", textAlign: isMobile ? "left" : "right" }} className="text-[#f5f0e8]">
+          <div style={{ maxWidth: "260px" }}>
+            <p className="font-display text-sm md:text-lg tracking-[0.1em] uppercase opacity-50 mb-6 md:mb-8">Colaboraciones</p>
+            <div className="space-y-2.5">
+              <a href="https://www.youtube.com/watch?v=4fGR4L4Ut00" target="_blank" rel="noopener noreferrer" className="block font-display text-sm opacity-55 hover:opacity-85 transition-all duration-300 underline decoration-[#f5f0e8]/15 underline-offset-4 hover:decoration-[#f5f0e8]/40">Apple</a>
+              <p className="font-display text-sm opacity-45">IPADE</p>
+              <p className="font-display text-sm opacity-45">Tequila San Matías</p>
+              <p className="font-display text-sm opacity-45">The Macallan Group</p>
+              <p className="font-display text-sm opacity-45">Universidad Panamericana</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="split-divider bg-[#f5f0e8]/12 md:opacity-12 md:mx-3"></div>
+        {/* Divider */}
+        {isMobile ? (
+          <div style={{ width: "4rem", height: "1px", background: "rgba(245,240,232,0.1)" }}></div>
+        ) : (
+          <div style={{ width: "1px", height: "11rem", background: "linear-gradient(to bottom, transparent, rgba(245,240,232,0.12), transparent)", margin: "0 0.75rem" }}></div>
+        )}
 
-      {/* Right — Awards */}
-      <div className="split-right text-[#f5f0e8]">
-        <div className="max-w-[340px]">
-          <p className="font-display text-base md:text-lg tracking-[0.1em] uppercase opacity-50 mb-8">Reconocimientos</p>
-          <div className="space-y-4">
-            {[
-              { award: "Mejor Largometraje Nacional", fest: "Festival de Cine de Madrid" },
-              { award: "Mejor Fotografía", fest: "Festival de Cine de Madrid" },
-              { award: "Mejor Documental", fest: "Festival Int. de Guayaquil" },
-            ].map(({ award, fest }) => (
-              <div key={award}>
-                <p className="font-display text-[15px] md:text-base opacity-75">{award}</p>
-                <p className="font-mono text-[7px] tracking-[2px] uppercase opacity-25 mt-0.5">{fest}</p>
-              </div>
-            ))}
+        {/* Right — Awards */}
+        <div style={{ flex: isMobile ? "none" : 1, display: isMobile ? "block" : "flex", justifyContent: "flex-start", paddingLeft: isMobile ? 0 : "4rem", textAlign: "left" }} className="text-[#f5f0e8]">
+          <div style={{ maxWidth: "340px" }}>
+            <p className="font-display text-sm md:text-lg tracking-[0.1em] uppercase opacity-50 mb-6 md:mb-8">Reconocimientos</p>
+            <div className="space-y-3 md:space-y-4">
+              {[
+                { award: "Mejor Largometraje Nacional", fest: "Festival de Cine de Madrid" },
+                { award: "Mejor Fotografía", fest: "Festival de Cine de Madrid" },
+                { award: "Mejor Documental", fest: "Festival Int. de Guayaquil" },
+              ].map(({ award, fest }) => (
+                <div key={award}>
+                  <p className="font-display text-sm md:text-base opacity-75">{award}</p>
+                  <p className="font-mono text-[7px] tracking-[2px] uppercase opacity-25 mt-0.5">{fest}</p>
+                </div>
+              ))}
+            </div>
+            <p className="font-display text-xs italic opacity-25 mt-6 md:mt-8">Faraway Land — Documental, 2018 · 10 festivales · 5 países</p>
           </div>
-          <p className="font-display text-xs italic opacity-25 mt-8">Faraway Land — Documental, 2018 · 10 festivales · 5 países</p>
         </div>
       </div>
     </div>
@@ -152,10 +165,10 @@ export default function Home() {
     /* ─── Contacto overlay variants ─── */
   const contactOverlay = (
     <div className="absolute inset-0 flex items-center justify-center px-6 md:px-20">
-      <div className="max-w-2xl w-full">
-        <div className="w-full h-px bg-[#2a2520]/8 mb-8 md:mb-10" />
-        <div className="contact-split text-[#2a2520]">
-          <div className="split-left">
+      <div style={{ maxWidth: "42rem", width: "100%" }}>
+        <div style={{ width: "100%", height: "1px", background: "rgba(42,37,32,0.08)", marginBottom: isMobile ? "2rem" : "2.5rem" }}></div>
+        <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: isMobile ? "1.5rem" : "4rem", color: "#2a2520" }}>
+          <div style={{ flex: 1, textAlign: "left" }}>
             <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4 md:mb-6">Sobre</p>
             <p className="font-display text-sm md:text-base leading-[2] opacity-50 mb-2 md:mb-3">
               Soy Daniel. Hago documentales, video y experimento con IA.
@@ -164,8 +177,13 @@ export default function Home() {
               Nací en Hmo. Vivo en Guadalajara.
             </p>
           </div>
-          <div className="split-divider bg-[#2a2520]/8"></div>
-          <div className="split-right">
+          {/* Divider */}
+          {isMobile ? (
+            <div style={{ width: "4rem", height: "1px", background: "rgba(42,37,32,0.06)" }}></div>
+          ) : (
+            <div style={{ width: "1px", background: "rgba(42,37,32,0.08)", alignSelf: "stretch" }}></div>
+          )}
+          <div style={{ flex: 1, textAlign: "left", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p className="font-mono text-[7px] tracking-[6px] uppercase opacity-20 mb-4 md:mb-6">Contacto</p>
             <a href="mailto:daniel@timeless.mx" className="block font-display text-base md:text-xl opacity-55 hover:opacity-85 transition-opacity duration-300 mb-5 md:mb-6 underline decoration-[#2a2520]/10 underline-offset-4 hover:decoration-[#2a2520]/30">
               daniel@timeless.mx
@@ -176,7 +194,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-full h-px bg-[#2a2520]/8 mt-8 md:mt-10" />
+        <div style={{ width: "100%", height: "1px", background: "rgba(42,37,32,0.08)", marginTop: isMobile ? "2rem" : "2.5rem" }}></div>
       </div>
     </div>
   );
